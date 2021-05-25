@@ -4,4 +4,5 @@ public class Teste {
 	//alterando as classes
 	//alterei pra main as classes
 	int b;
+	int c;
 }
