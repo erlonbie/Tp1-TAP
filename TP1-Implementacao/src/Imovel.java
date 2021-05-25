@@ -4,22 +4,29 @@ public class Imovel {
 	private String categoria;
 	private String endereco;
 	private double area;
+	private double custo;
 	private int qntQuartos;
 	private int qntSuites;
 	private int qntVagasEstacionamento;
-	private double custo;
-	private boolean alugado=false;
+	private boolean piscina;
+	private boolean churrasqueira;
+	private boolean playground;
+	private boolean alugado;
 	
-	public Imovel(String categoria, String endereco, double area, int qntQuartos, int qntSuites,
-			int qntVagasEstacionamento, double custo) {
+	public Imovel(String categoria, String endereco, double area, double custo, int qntQuartos, int qntSuites,
+			int qntVagasEstacionamento, boolean piscina, boolean churrasqueira, boolean playground, boolean alugado) {
 		super();
 		this.categoria = categoria;
 		this.endereco = endereco;
 		this.area = area;
+		this.custo = custo;
 		this.qntQuartos = qntQuartos;
 		this.qntSuites = qntSuites;
 		this.qntVagasEstacionamento = qntVagasEstacionamento;
-		this.custo = custo;
+		this.piscina = piscina;
+		this.churrasqueira = churrasqueira;
+		this.playground = playground;
+		this.alugado = alugado;
 	}
 
 	public String getCategoria() {
@@ -46,6 +53,14 @@ public class Imovel {
 		this.area = area;
 	}
 
+	public double getCusto() {
+		return custo;
+	}
+
+	public void setCusto(double custo) {
+		this.custo = custo;
+	}
+
 	public int getQntQuartos() {
 		return qntQuartos;
 	}
@@ -70,14 +85,36 @@ public class Imovel {
 		this.qntVagasEstacionamento = qntVagasEstacionamento;
 	}
 
-	public double getCusto() {
-		return custo;
+	public boolean isPiscina() {
+		return piscina;
 	}
 
-	public void setCusto(double custo) {
-		this.custo = custo;
+	public void setPiscina(boolean piscina) {
+		this.piscina = piscina;
 	}
-	
-	
+
+	public boolean isChurrasqueira() {
+		return churrasqueira;
+	}
+
+	public void setChurrasqueira(boolean churrasqueira) {
+		this.churrasqueira = churrasqueira;
+	}
+
+	public boolean isPlayground() {
+		return playground;
+	}
+
+	public void setPlayground(boolean playground) {
+		this.playground = playground;
+	}
+
+	public boolean isAlugado() {
+		return alugado;
+	}
+
+	public void setAlugado(boolean alugado) {
+		this.alugado = alugado;
+	}
 	
 }
