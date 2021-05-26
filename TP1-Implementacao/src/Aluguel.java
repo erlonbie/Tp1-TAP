@@ -5,7 +5,7 @@ public class Aluguel {
 	Calendar termino;
 	Imovel imovel;
 	Cliente cliente;
-	boolean seguro;
-	boolean chaveExtra;
-	boolean mobiliado;
+	int seguro;
+	int chaveExtra;
+	int mobiliado;
 }

@@ -8,13 +8,13 @@ public class Imovel {
 	private int qntQuartos;
 	private int qntSuites;
 	private int qntVagasEstacionamento;
-	private boolean piscina;
-	private boolean churrasqueira;
-	private boolean playground;
-	private boolean alugado;
+	private int piscina;
+	private int churrasqueira;
+	private int playground;
+	private int alugado;
 	
 	public Imovel(String categoria, String endereco, double area, double custo, int qntQuartos, int qntSuites,
-			int qntVagasEstacionamento, boolean piscina, boolean churrasqueira, boolean playground, boolean alugado) {
+			int qntVagasEstacionamento, int piscina, int churrasqueira, int playground, int alugado) {
 		super();
 		this.categoria = categoria;
 		this.endereco = endereco;
@@ -85,35 +85,35 @@ public class Imovel {
 		this.qntVagasEstacionamento = qntVagasEstacionamento;
 	}
 
-	public boolean isPiscina() {
+	public int isPiscina() {
 		return piscina;
 	}
 
-	public void setPiscina(boolean piscina) {
+	public void setPiscina(int piscina) {
 		this.piscina = piscina;
 	}
 
-	public boolean isChurrasqueira() {
+	public int isChurrasqueira() {
 		return churrasqueira;
 	}
 
-	public void setChurrasqueira(boolean churrasqueira) {
+	public void setChurrasqueira(int churrasqueira) {
 		this.churrasqueira = churrasqueira;
 	}
 
-	public boolean isPlayground() {
+	public int isPlayground() {
 		return playground;
 	}
 
-	public void setPlayground(boolean playground) {
+	public void setPlayground(int playground) {
 		this.playground = playground;
 	}
 
-	public boolean isAlugado() {
+	public int isAlugado() {
 		return alugado;
 	}
 
-	public void setAlugado(boolean alugado) {
+	public void setAlugado(int alugado) {
 		this.alugado = alugado;
 	}
 	

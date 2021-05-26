@@ -19,6 +19,7 @@ public class BancoDeDados {
 		}
 		catch (SQLException e) {
 			System.out.println("Falhou no conecta");
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -30,6 +31,7 @@ public class BancoDeDados {
 		}
 		catch(SQLException e) {
 			System.out.println("Falhou no desconecta");
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
