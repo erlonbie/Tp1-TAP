@@ -1,9 +1,9 @@
 import java.sql.*;
 
 public class BancoDeDados {
-	private static String url = "jdbc:mysql://localhost:3306/CitacoesBD";
-	private static String user = "citacoes_admin";
-	private static String pass = "Teste123";
+	private static String url = "jdbc:mysql://localhost:3306/AluguelBD";
+	private static String user = "aluguel";
+	private static String pass = "abc123";
 	protected static Connection conexao = null;
 	
 	public BancoDeDados() {

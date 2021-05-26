@@ -1,6 +1,4 @@
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class PersonagensDAO extends BancoDeDados {
 	public void listaPersonagens() {
@@ -14,8 +12,8 @@ public class PersonagensDAO extends BancoDeDados {
 		catch (SQLException e) { }
 	}
 	
-	public static void main (String args[]) {
-		PersonagensDAO per = new PersonagensDAO();
-		per.listaPersonagens();
-	}
+//	public static void main (String args[]) {
+//		PersonagensDAO per = new PersonagensDAO();
+//		per.listaPersonagens();
+//	}
 }
