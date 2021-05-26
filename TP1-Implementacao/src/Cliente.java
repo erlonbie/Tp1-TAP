@@ -1,8 +1,9 @@
 
 public class Cliente {
+	
+	int id;
 	String nome;
 	int idade;
-	int id;
 	Imovel imovel;
 	Aluguel aluguel;
 }

@@ -28,6 +28,26 @@ public class Imovel {
 		this.playground = playground;
 		this.alugado = alugado;
 	}
+	
+	public Imovel(String categoria, String endereco, double area, double custo) {
+		super();
+		this.categoria = categoria;
+		this.endereco = endereco;
+		this.area = area;
+		this.custo = custo;
+	}
+
+	public Imovel(String categoria, String endereco, double area, double custo, int qntQuartos, int qntSuites,
+			int qntVagasEstacionamento) {
+		super();
+		this.categoria = categoria;
+		this.endereco = endereco;
+		this.area = area;
+		this.custo = custo;
+		this.qntQuartos = qntQuartos;
+		this.qntSuites = qntSuites;
+		this.qntVagasEstacionamento = qntVagasEstacionamento;
+	}
 
 	public String getCategoria() {
 		return categoria;

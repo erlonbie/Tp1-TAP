@@ -1,13 +1,13 @@
 
 public class Kitchenette extends Imovel {
 
-	public Kitchenette(String categoria, String endereco, double area, double custo, int qntQuartos, int qntSuites,
-			int qntVagasEstacionamento, int piscina, int churrasqueira, int playground, int alugado) {
-		super(categoria, endereco, area, custo, qntQuartos, qntSuites, qntVagasEstacionamento, piscina, churrasqueira,
-				playground, alugado);
-		// TODO Auto-generated constructor stub
+	public Kitchenette(String categoria, String endereco, double area, double custo) {
+		super(categoria, endereco, area, custo);
+		this.setQntQuartos(1);
+		this.setQntSuites(1);
+		this.setQntVagasEstacionamento(1);
+		this.setPiscina(0);
+		this.setChurrasqueira(0);
+		this.setPlayground(0);
 	}
-
-	
-	
 }
