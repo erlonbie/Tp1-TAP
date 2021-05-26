@@ -58,6 +58,12 @@ public class VisualMain {
 		frame.getContentPane().add(btnNewButton_4);
 		
 		JButton btnNewButton = new JButton("Clientes");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VisualControleClientes clientes = new VisualControleClientes();
+				clientes.setVisible(true);
+			}
+		});
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNewButton_2 = new JButton("Relatório Mensal");

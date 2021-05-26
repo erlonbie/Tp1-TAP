@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 
-public class VisualControleImoveis extends JFrame {
+public class VisualControleClientes extends JFrame {
 
 	private JPanel contentPane;
 
@@ -20,7 +20,7 @@ public class VisualControleImoveis extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VisualControleImoveis frame = new VisualControleImoveis();
+					VisualControleClientes frame = new VisualControleClientes();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -32,11 +32,11 @@ public class VisualControleImoveis extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VisualControleImoveis() {
+	public VisualControleClientes() {
+		setTitle("Cientes");
 		setResizable(false);
-		setTitle("Imóveis");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(200, 200, 400, 100);
+		setBounds(200, 100, 400, 100);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
