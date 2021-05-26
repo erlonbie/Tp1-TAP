@@ -18,6 +18,7 @@ public class BancoDeDados {
 			return true;
 		}
 		catch (SQLException e) {
+			System.out.println("Falhou no conecta");
 			return false;
 		}
 	}
@@ -26,7 +27,9 @@ public class BancoDeDados {
 		try {
 			conexao.close();
 			return true;
-		}catch(SQLException e) {
+		}
+		catch(SQLException e) {
+			System.out.println("Falhou no desconecta");
 			return false;
 		}
 	}
