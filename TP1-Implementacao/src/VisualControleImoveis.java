@@ -19,14 +19,15 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import javax.swing.SpinnerNumberModel;
 
 public class VisualControleImoveis extends JFrame {
 
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField txtTeste;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField endereco;
+	private JTextField custo;
+	private JTextField area;
 
 	/**
 	 * Launch the application.
@@ -58,41 +59,24 @@ public class VisualControleImoveis extends JFrame {
 		
 		JLabel lblComandos = new JLabel("Comandos");
 		
-		JRadioButton kitchenette = new JRadioButton("Kitchenette");
-//		kitchenette.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				if(kitchenette.isSelected()) {
-//					
-//				}
-//			}
-//		});
-		buttonGroup.add(kitchenette);
-		
-		JRadioButton casaPadrao = new JRadioButton("Casa Padrão");
-		buttonGroup.add(casaPadrao);
-		
-		JRadioButton casaCondominio = new JRadioButton("Casa Condromínio");
-		buttonGroup.add(casaCondominio);
-		
-		JRadioButton apartamento = new JRadioButton("Apartamento");
-		buttonGroup.add(apartamento);
+
 		
 		JButton btnRelatrio = new JButton("Relatório");
 		
-		txtTeste = new JTextField();
-		txtTeste.setColumns(10);
+		endereco = new JTextField();
+		endereco.setColumns(10);
 		
 		JLabel lblEndereo = new JLabel("Endereço:");
 		
 		JLabel lblCusto = new JLabel("Custo:");
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		custo = new JTextField();
+		custo.setColumns(10);
 		
 		JLabel lblArea = new JLabel("Area:");
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		area = new JTextField();
+		area.setColumns(10);
 		
 		JLabel lblQuartos = new JLabel("Quartos:");
 		
@@ -101,68 +85,126 @@ public class VisualControleImoveis extends JFrame {
 		JLabel lblQuartos_2 = new JLabel("Vagas de Estacionamento:");
 		
 		JSpinner quartos = new JSpinner();
+		quartos.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
 		
 		JSpinner suites = new JSpinner();
+		suites.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
 		
 		JSpinner vagasEstacionamento = new JSpinner();
+		vagasEstacionamento.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
+		
+		JRadioButton kitchenette = new JRadioButton("Kitchenette");
+		kitchenette.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(kitchenette.isSelected()) {
+					quartos.setEnabled(false);
+					suites.setEnabled(false);
+					vagasEstacionamento.setEnabled(false);
+				}
+			}
+		});
+		buttonGroup.add(kitchenette);
+		
+		JRadioButton casaPadrao = new JRadioButton("Casa Padrão");
+		casaPadrao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(kitchenette.isSelected() == false) {
+					quartos.setEnabled(true);
+					suites.setEnabled(true);
+					vagasEstacionamento.setEnabled(true);
+				}
+			}
+		});
+		buttonGroup.add(casaPadrao);
+		
+		JRadioButton casaCondominio = new JRadioButton("Casa Condromínio");
+		casaCondominio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(kitchenette.isSelected() == false) {
+					quartos.setEnabled(true);
+					suites.setEnabled(true);
+					vagasEstacionamento.setEnabled(true);
+				}
+			}
+		});
+		buttonGroup.add(casaCondominio);
+		
+		JRadioButton apartamento = new JRadioButton("Apartamento");
+		apartamento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(kitchenette.isSelected() == false) {
+					quartos.setEnabled(true);
+					suites.setEnabled(true);
+					vagasEstacionamento.setEnabled(true);
+				}
+			}
+		});
+		buttonGroup.add(apartamento);
 		
 		JButton btnSobreOsImveis = new JButton("Sobre ");
+		
 		
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(kitchenette.isSelected()) {
-					ImovelDAO iDAO = new ImovelDAO ();
-					Imovel i = new Imovel("Kitchenette", txtTeste.getText() , 12.2, 150.00, 2, 2, 1, 0, 1, 1, 0);
-					iDAO.adicionaImoveis(i);
-				}
-				else if(casaPadrao.isSelected()) {
-					
-				}
-				else if(casaCondominio.isSelected()) {
-					
-				}
-				else if(apartamento.isSelected()) {
-					
+				if(endereco.getText().length() == 0 || area.getText().length() == 0 || custo.getText().length() == 0) {
+					//btnAdicionar.setEnabled(false);
+					JOptionPane.showMessageDialog(null, "preencha todos os campos");
 				}
 				else {
-					JOptionPane.showMessageDialog(null, "Selecione um tipo de imóvel!");
+					if(kitchenette.isSelected()) {
+						ImovelDAO iDAO = new ImovelDAO ();
+						//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
+						Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), 1, 1, 1, 0, 0, 0, 0);
+						iDAO.adicionaImoveis(i);
+						JOptionPane.showMessageDialog(null, "Kitchenette adicionado");
+						endereco.setText("");
+						custo.setText("");
+						area.setText("");
+						kitchenette.setSelected(false);
+					}
+					else if(casaPadrao.isSelected()) {
+						
+					}
+					else if(casaCondominio.isSelected()) {
+						
+					}
+					else if(apartamento.isSelected()) {
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Selecione um tipo de imóvel!");
+					}
 				}
+				
 			}
 		});
 		
 		JButton btnRemover = new JButton("Remover");
 		
 		JButton btnEditar = new JButton("Editar");
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(139)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+							.addContainerGap()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(kitchenette)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(casaPadrao)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(casaCondominio)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(apartamento))
-								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(153)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblEndereo)
 										.addComponent(lblCusto)
 										.addComponent(lblArea))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(txtTeste, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE)
+										.addComponent(endereco, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE)
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-												.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addComponent(custo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(area, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 											.addGap(29)
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 												.addComponent(lblQuartos)
@@ -172,32 +214,35 @@ public class VisualControleImoveis extends JFrame {
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 												.addComponent(vagasEstacionamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 												.addComponent(suites, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(quartos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))))
+												.addComponent(quartos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(btnRelatrio)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnAdicionar)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnRemover)
+									.addGap(18)
+									.addComponent(btnEditar)
+									.addPreferredGap(ComponentPlacement.RELATED, 274, Short.MAX_VALUE)
+									.addComponent(btnSobreOsImveis))
+								.addComponent(lblComandos)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnRelatrio)
+							.addGap(85)
+							.addComponent(kitchenette)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnAdicionar)
+							.addComponent(casaPadrao)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnRemover)
-							.addGap(18)
-							.addComponent(btnEditar)
-							.addPreferredGap(ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
-							.addComponent(btnSobreOsImveis))
-						.addComponent(lblComandos))
+							.addComponent(casaCondominio)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(apartamento)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
+					.addGap(33)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(kitchenette)
-						.addComponent(casaPadrao)
-						.addComponent(casaCondominio)
-						.addComponent(apartamento))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtTeste, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(endereco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEndereo))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -206,9 +251,9 @@ public class VisualControleImoveis extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblArea))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(custo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(area, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblQuartos)
@@ -221,7 +266,13 @@ public class VisualControleImoveis extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblQuartos_2)
 								.addComponent(vagasEstacionamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED, 360, Short.MAX_VALUE)
+					.addGap(78)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(kitchenette)
+						.addComponent(casaPadrao)
+						.addComponent(casaCondominio)
+						.addComponent(apartamento))
+					.addPreferredGap(ComponentPlacement.RELATED, 259, Short.MAX_VALUE)
 					.addComponent(lblComandos)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
