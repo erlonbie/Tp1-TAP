@@ -1,6 +1,10 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ImovelDAO extends BancoDeDados {
+	
+	VisualControleImoveis i = new VisualControleImoveis();
+	
 	public boolean adicionaImoveis(Imovel i) {
 		try {
 			Statement st = conexao.createStatement();
@@ -14,7 +18,7 @@ public class ImovelDAO extends BancoDeDados {
 		}
 	}
 	
-	public void listaPersonagens() {
+	public void listarImoveis() {
 		try {
 			Statement st = conexao.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM imoveis");
@@ -26,6 +30,41 @@ public class ImovelDAO extends BancoDeDados {
 			System.out.println("Falhou no listaImoveis");
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	public String retornarImoveis() {
+		String s = "";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM imoveis");
+			while(rs.next()) {
+				s += "Id: " + rs.getString(1) + '\n' + "Categoria: " + rs.getString(2) + "\n" + "Endereço: " + rs.getString(3)+ "\n" + "Area: " + rs.getString(4) + "\n" + "Custo: " + rs.getString(5) + "\n" + "Quartos: " + rs.getString(6) + "\n" + "Suítes: " + rs.getString(7) + "\n" + "Vagas de estacionamento: " + rs.getString(8) + "\n" + "Piscina: " + rs.getString(9) + "\n" + "Churrasqueira: " + rs.getString(10) + "\n" + "Playground: " + rs.getString(11) + "\n" + "Alugado: " + rs.getString(12) +"\n";
+			}
+			return s;
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no listaImoveis");
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public void listaComboBox() {
+		int x = 0;
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM imoveis");
+			while(rs.next()) {
+				i.imoveis.add("Id: " + rs.getString(1) + " - " + "Categoria: " + rs.getString(2));
+				//i.getComboBox().addItem(rs.next());
+				x++;
+			}
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no listaImoveis");
+			System.out.println(e.getMessage());
+		}
+		
 	}
 	
 //	public static void main (String args[]) {
