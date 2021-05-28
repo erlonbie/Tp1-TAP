@@ -1,4 +1,4 @@
-package visual;
+
 
 import java.awt.EventQueue;
 

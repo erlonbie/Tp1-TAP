@@ -1,44 +1,30 @@
-package visual;
 
-import java.awt.BorderLayout;
+
+
 import java.awt.EventQueue;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import java.awt.CardLayout;
-import javax.swing.BoxLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.JComboBox;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import net.miginfocom.swing.MigLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.JEditorPane;
 import javax.swing.JSpinner;
-import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 
 public class VisualControleImoveis extends JFrame {
 
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField textField;
+	private JTextField txtTeste;
 	private JTextField textField_1;
 	private JTextField textField_2;
 
@@ -72,33 +58,29 @@ public class VisualControleImoveis extends JFrame {
 		
 		JLabel lblComandos = new JLabel("Comandos");
 		
-		JButton btnNewButton = new JButton("Adicionar");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		});
+		JRadioButton kitchenette = new JRadioButton("Kitchenette");
+//		kitchenette.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				if(kitchenette.isSelected()) {
+//					
+//				}
+//			}
+//		});
+		buttonGroup.add(kitchenette);
 		
-		JButton btnNewButton_1 = new JButton("Editar");
+		JRadioButton casaPadrao = new JRadioButton("Casa Padrão");
+		buttonGroup.add(casaPadrao);
 		
-		JButton btnNewButton_2 = new JButton("Remover");
+		JRadioButton casaCondominio = new JRadioButton("Casa Condromínio");
+		buttonGroup.add(casaCondominio);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("Kitchenette");
-		buttonGroup.add(rdbtnNewRadioButton);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Casa Padrão");
-		buttonGroup.add(rdbtnNewRadioButton_1);
-		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Casa Condromínio");
-		buttonGroup.add(rdbtnNewRadioButton_2);
-		
-		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("Apartamento");
-		buttonGroup.add(rdbtnNewRadioButton_3);
+		JRadioButton apartamento = new JRadioButton("Apartamento");
+		buttonGroup.add(apartamento);
 		
 		JButton btnRelatrio = new JButton("Relatório");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtTeste = new JTextField();
+		txtTeste.setColumns(10);
 		
 		JLabel lblEndereo = new JLabel("Endereço:");
 		
@@ -125,6 +107,33 @@ public class VisualControleImoveis extends JFrame {
 		JSpinner vagasEstacionamento = new JSpinner();
 		
 		JButton btnSobreOsImveis = new JButton("Sobre ");
+		
+		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(kitchenette.isSelected()) {
+					ImovelDAO iDAO = new ImovelDAO ();
+					Imovel i = new Imovel("Kitchenette", txtTeste.getText() , 12.2, 150.00, 2, 2, 1, 0, 1, 1, 0);
+					iDAO.adicionaImoveis(i);
+				}
+				else if(casaPadrao.isSelected()) {
+					
+				}
+				else if(casaCondominio.isSelected()) {
+					
+				}
+				else if(apartamento.isSelected()) {
+					
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Selecione um tipo de imóvel!");
+				}
+			}
+		});
+		
+		JButton btnRemover = new JButton("Remover");
+		
+		JButton btnEditar = new JButton("Editar");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -132,26 +141,16 @@ public class VisualControleImoveis extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(btnRelatrio)
-							.addGap(550)
-							.addComponent(btnSobreOsImveis))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblComandos)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(btnNewButton_2, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnNewButton_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-							.addGap(39)
+							.addGap(139)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(rdbtnNewRadioButton)
+									.addComponent(kitchenette)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(rdbtnNewRadioButton_1)
+									.addComponent(casaPadrao)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(rdbtnNewRadioButton_2)
+									.addComponent(casaCondominio)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(rdbtnNewRadioButton_3))
+									.addComponent(apartamento))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblEndereo)
@@ -159,7 +158,7 @@ public class VisualControleImoveis extends JFrame {
 										.addComponent(lblArea))
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textField, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtTeste, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE)
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 												.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -173,7 +172,18 @@ public class VisualControleImoveis extends JFrame {
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 												.addComponent(vagasEstacionamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 												.addComponent(suites, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(quartos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))))))
+												.addComponent(quartos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(btnRelatrio)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnAdicionar)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnRemover)
+							.addGap(18)
+							.addComponent(btnEditar)
+							.addPreferredGap(ComponentPlacement.RELATED, 233, Short.MAX_VALUE)
+							.addComponent(btnSobreOsImveis))
+						.addComponent(lblComandos))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -181,31 +191,20 @@ public class VisualControleImoveis extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblComandos)
-						.addComponent(rdbtnNewRadioButton)
-						.addComponent(rdbtnNewRadioButton_1)
-						.addComponent(rdbtnNewRadioButton_2)
-						.addComponent(rdbtnNewRadioButton_3))
+						.addComponent(kitchenette)
+						.addComponent(casaPadrao)
+						.addComponent(casaCondominio)
+						.addComponent(apartamento))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtTeste, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEndereo))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnNewButton_1)
-								.addComponent(lblCusto))
+							.addComponent(lblCusto)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(btnNewButton_2)
-									.addPreferredGap(ComponentPlacement.RELATED, 403, Short.MAX_VALUE)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-										.addComponent(btnRelatrio)
-										.addComponent(btnSobreOsImveis)))
-								.addComponent(lblArea)))
+							.addComponent(lblArea))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -222,6 +221,15 @@ public class VisualControleImoveis extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblQuartos_2)
 								.addComponent(vagasEstacionamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addPreferredGap(ComponentPlacement.RELATED, 360, Short.MAX_VALUE)
+					.addComponent(lblComandos)
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnRelatrio)
+						.addComponent(btnSobreOsImveis)
+						.addComponent(btnAdicionar)
+						.addComponent(btnRemover)
+						.addComponent(btnEditar))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
