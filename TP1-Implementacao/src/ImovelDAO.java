@@ -28,11 +28,11 @@ public class ImovelDAO extends BancoDeDados {
 		}
 	}
 	
-	public static void main (String args[]) {
-		ImovelDAO iDAO = new ImovelDAO ();
-		Imovel i = new Imovel("Casa Padrao2", "Rua2", 12.0, 150.00, 2, 2, 1, 0, 1, 1, 0);
-		iDAO.adicionaImoveis(i);
-		iDAO.listaPersonagens();
-		
-	}
+//	public static void main (String args[]) {
+//		ImovelDAO iDAO = new ImovelDAO ();
+//		Imovel i = new Imovel("Casa Padrao2", "Rua2", 12.0, 150.00, 2, 2, 1, 0, 1, 1, 0);
+//		iDAO.adicionaImoveis(i);
+//		iDAO.listaPersonagens();
+//		
+//	}
 }
