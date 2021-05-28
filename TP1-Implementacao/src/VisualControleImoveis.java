@@ -5,7 +5,10 @@ import java.awt.EventQueue;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -20,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JComboBox;
 
 public class VisualControleImoveis extends JFrame {
 
@@ -28,6 +32,12 @@ public class VisualControleImoveis extends JFrame {
 	private JTextField endereco;
 	private JTextField custo;
 	private JTextField area;
+	private JComboBox comboBox;
+	
+	private static String url = "jdbc:mysql://localhost:3306/AluguelBD";
+	private static String user = "aluguel";
+	private static String pass = "abc123";
+	protected static Connection conexao = null;
 
 	/**
 	 * Launch the application.
@@ -48,7 +58,22 @@ public class VisualControleImoveis extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	public void fillComboBox() {
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM imoveis");
+			while(rs.next()) {
+				comboBox.addItem(rs.getString("categoria"));
+			}
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no fillComboBox");
+			System.out.println(e.getMessage());
+		}
+	}
+	
 	public VisualControleImoveis() {
+		
 		setResizable(false);
 		setTitle("Imóveis");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -184,6 +209,8 @@ public class VisualControleImoveis extends JFrame {
 		
 		JButton btnEditar = new JButton("Editar");
 		
+		comboBox = new JComboBox();
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -223,7 +250,9 @@ public class VisualControleImoveis extends JFrame {
 									.addComponent(btnRemover)
 									.addGap(18)
 									.addComponent(btnEditar)
-									.addPreferredGap(ComponentPlacement.RELATED, 274, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(comboBox, 0, 238, Short.MAX_VALUE)
+									.addGap(18)
 									.addComponent(btnSobreOsImveis))
 								.addComponent(lblComandos)))
 						.addGroup(gl_contentPane.createSequentialGroup()
@@ -280,9 +309,12 @@ public class VisualControleImoveis extends JFrame {
 						.addComponent(btnSobreOsImveis)
 						.addComponent(btnAdicionar)
 						.addComponent(btnRemover)
-						.addComponent(btnEditar))
+						.addComponent(btnEditar)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
+		
 	}
+	
 }
