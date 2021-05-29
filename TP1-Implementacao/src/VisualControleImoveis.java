@@ -71,6 +71,31 @@ public class VisualControleImoveis extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	public static boolean isInt(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        double d = Integer.parseInt(strNum);
+	    } catch (NumberFormatException nfe) {
+	    	JOptionPane.showMessageDialog(null, "Formato numérico inválido");
+	        return false;
+	    }
+	    return true;
+	}
+	
+	public static boolean isDouble(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        double d = Double.parseDouble(strNum);
+	    } catch (NumberFormatException nfe) {
+	    	JOptionPane.showMessageDialog(null, "Formato numérico inválido");
+	        return false;
+	    }
+	    return true;
+	}
 	
 	public static void fillComboBox() {
 		ImovelDAO iDAO = new ImovelDAO();
@@ -104,11 +129,7 @@ public class VisualControleImoveis extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblComandos = new JLabel("Comandos");
 		
-
-		
-		JButton btnRelatrio = new JButton("Relatório");
 		
 		endereco = new JTextField();
 		endereco.setColumns(10);
@@ -144,9 +165,12 @@ public class VisualControleImoveis extends JFrame {
 		kitchenette.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(kitchenette.isSelected()) {
+					quartos.setValue(1);
 					quartos.setEnabled(false);
 					suites.setEnabled(false);
+					suites.setValue(1);
 					vagasEstacionamento.setEnabled(false);
+					vagasEstacionamento.setValue(1);
 				}
 			}
 		});
@@ -192,6 +216,15 @@ public class VisualControleImoveis extends JFrame {
 		JTextArea textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		
+		JLabel lblComandos = new JLabel("Comandos");
+		
+		JButton btnRelatrio = new JButton("Relatório");
+		btnRelatrio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ImovelDAO iDAO = new ImovelDAO ();
+				textArea.setText(iDAO.retornarImoveis());
+			}
+		});
 		
 		JButton btnSobreOsImveis = new JButton("Sobre ");
 		
@@ -204,16 +237,18 @@ public class VisualControleImoveis extends JFrame {
 				}
 				else {
 					if(kitchenette.isSelected()) {
-						ImovelDAO iDAO = new ImovelDAO ();
-						//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
-						Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), 1, 1, 1, 0, 0, 0, 0);
-						iDAO.adicionaImoveis(i);
-						JOptionPane.showMessageDialog(null, "Kitchenette adicionado");
-						endereco.setText("");
-						custo.setText("");
-						area.setText("");
-						kitchenette.setSelected(false);
-						textArea.setText(iDAO.retornarImoveis());
+						if(isDouble(area.getText()) && isDouble(custo.getText())) {
+							ImovelDAO iDAO = new ImovelDAO ();
+							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
+							Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), 1, 1, 1, 0, 0, 0, 0);
+							iDAO.adicionaImoveis(i);
+							JOptionPane.showMessageDialog(null, "Kitchenette adicionado");
+							endereco.setText("");
+							custo.setText("");
+							area.setText("");
+							//kitchenette.setSelected(false);
+							//textArea.setText(iDAO.retornarImoveis());
+						}
 					}
 					else if(casaPadrao.isSelected()) {
 						
