@@ -153,13 +153,13 @@ public class VisualControleImoveis extends JFrame {
 		JLabel lblQuartos_2 = new JLabel("Vagas de Estacionamento:");
 		
 		JSpinner quartos = new JSpinner();
-		quartos.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
+		quartos.setModel(new SpinnerNumberModel(1, 1, 5, 1));
 		
 		JSpinner suites = new JSpinner();
-		suites.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
+		suites.setModel(new SpinnerNumberModel(1, 0, 5, 1));
 		
 		JSpinner vagasEstacionamento = new JSpinner();
-		vagasEstacionamento.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
+		vagasEstacionamento.setModel(new SpinnerNumberModel(1, 1, 3, 1));
 		
 		JRadioButton kitchenette = new JRadioButton("Kitchenette");
 		kitchenette.addActionListener(new ActionListener() {
@@ -251,13 +251,55 @@ public class VisualControleImoveis extends JFrame {
 						}
 					}
 					else if(casaPadrao.isSelected()) {
-						
+						if(isDouble(area.getText()) && isDouble(custo.getText()) && Integer.parseInt(quartos.getValue().toString()) >= Integer.parseInt(suites.getValue().toString())) {
+							ImovelDAO iDAO = new ImovelDAO ();
+							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
+							Imovel i = new Imovel("Casa Padrão", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 1, 0, 0);
+							iDAO.adicionaImoveis(i);
+							JOptionPane.showMessageDialog(null, "Casa padrão adicionada");
+							endereco.setText("");
+							custo.setText("");
+							area.setText("");
+							//kitchenette.setSelected(false);
+							//textArea.setText(iDAO.retornarImoveis());
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
+						}
 					}
 					else if(casaCondominio.isSelected()) {
-						
+						if(isDouble(area.getText()) && isDouble(custo.getText()) && Integer.parseInt(quartos.getValue().toString()) >= Integer.parseInt(suites.getValue().toString())) {
+							ImovelDAO iDAO = new ImovelDAO ();
+							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
+							Imovel i = new Imovel("Casa Condomínio", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 1, 1, 1, 0);
+							iDAO.adicionaImoveis(i);
+							JOptionPane.showMessageDialog(null, "Casa condomínio adicionada");
+							endereco.setText("");
+							custo.setText("");
+							area.setText("");
+							//kitchenette.setSelected(false);
+							//textArea.setText(iDAO.retornarImoveis());
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
+						}
 					}
 					else if(apartamento.isSelected()) {
-						
+						if(isDouble(area.getText()) && isDouble(custo.getText()) && Integer.parseInt(quartos.getValue().toString()) >= Integer.parseInt(suites.getValue().toString())) {
+							ImovelDAO iDAO = new ImovelDAO ();
+							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
+							Imovel i = new Imovel("Apartamento", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 1, 0, 1, 0);
+							iDAO.adicionaImoveis(i);
+							JOptionPane.showMessageDialog(null, "Apartamento adicionado");
+							endereco.setText("");
+							custo.setText("");
+							area.setText("");
+							//kitchenette.setSelected(false);
+							//textArea.setText(iDAO.retornarImoveis());
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
+						}
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Selecione um tipo de imóvel!");
