@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -42,6 +43,9 @@ import java.awt.Dimension;
 import javax.swing.DebugGraphics;
 import java.awt.ComponentOrientation;
 import javax.swing.DropMode;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
+import javax.swing.JToggleButton;
 
 public class VisualControleImoveis extends JFrame {
 
@@ -115,6 +119,8 @@ public class VisualControleImoveis extends JFrame {
 			}
 		});
 	}
+	
+	
 
 	/**
 	 * Create the frame.
@@ -124,7 +130,7 @@ public class VisualControleImoveis extends JFrame {
 	public VisualControleImoveis() {
 		setTitle("Imóveis");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(200, 200, 800, 600);
+		setBounds(200, 200, 1000, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -213,7 +219,9 @@ public class VisualControleImoveis extends JFrame {
 		buttonGroup.add(apartamento);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
 		scrollPane.setViewportView(textArea);
 		
 		JLabel lblComandos = new JLabel("Comandos");
@@ -226,7 +234,7 @@ public class VisualControleImoveis extends JFrame {
 			}
 		});
 		
-		JButton btnSobreOsImveis = new JButton("Sobre ");
+		
 		
 		JButton btnAdicionar = new JButton("Adicionar");
 		btnAdicionar.addActionListener(new ActionListener() {
@@ -246,6 +254,7 @@ public class VisualControleImoveis extends JFrame {
 							endereco.setText("");
 							custo.setText("");
 							area.setText("");
+							textArea.setText(iDAO.listaApenasUmImovel());
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
 						}
@@ -260,6 +269,7 @@ public class VisualControleImoveis extends JFrame {
 							endereco.setText("");
 							custo.setText("");
 							area.setText("");
+							textArea.setText(iDAO.listaApenasUmImovel());
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
 						}
@@ -277,6 +287,7 @@ public class VisualControleImoveis extends JFrame {
 							endereco.setText("");
 							custo.setText("");
 							area.setText("");
+							textArea.setText(iDAO.listaApenasUmImovel());
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
 						}
@@ -294,6 +305,7 @@ public class VisualControleImoveis extends JFrame {
 							endereco.setText("");
 							custo.setText("");
 							area.setText("");
+							textArea.setText(iDAO.listaApenasUmImovel());
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
 						}
@@ -310,33 +322,142 @@ public class VisualControleImoveis extends JFrame {
 		});
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int fim = 1;
+				String s = comboBox.getSelectedItem().toString();
+				for(int i = fim; s.charAt(i+1) != '-'; i++) {
+					fim++;	
+				}
+				textArea.setText("Apaguei o id: " + comboBox.getSelectedItem().toString().substring(0, fim));
+				s = comboBox.getSelectedItem().toString().substring(0, fim);
+				ImovelDAO iDAO = new ImovelDAO ();
+				iDAO.removeImoveis(s);
+				JOptionPane.showMessageDialog(null, "Imóvel removido com sucesso");
+			}
+		});
 		
-		JButton btnEditar = new JButton("Editar");
+		JToggleButton btnEditar = new JToggleButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		//fillComboBox();
 		comboBox = new JComboBox(imoveis.toArray());
 		//comboBox.setModel(new DefaultComboBoxModel(imoveis));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//ImovelDAO iDAO = new ImovelDAO ();
-				//comboBox.addItem(iDAO.listaComboBox().toString());
-				
+				if(btnEditar.isSelected() == true) {
+					String[] vs = new String[8];
+				    Arrays.fill(vs, "");
+				    String s = comboBox.getSelectedItem().toString();
+				    int x =0;
+				    for(int i = 0; i < 8; i++) {
+				    	while(x < s.length() && s.charAt(x) != '|') {
+				    		vs[i] += s.charAt(x);
+				    		x++;
+				    	}
+				    	x++;
+				    }
+				    if(vs[1].equals("Kitchenette")) {
+				    	endereco.setText(vs[2]);
+						custo.setText(vs[4]);
+						area.setText(vs[3]);
+						kitchenette.setSelected(true);
+						quartos.setValue(1);
+						quartos.setEnabled(false);
+						suites.setEnabled(false);
+						suites.setValue(1);
+						vagasEstacionamento.setEnabled(false);
+						vagasEstacionamento.setValue(1);
+				    }
+				    else if (vs[1].equals("Casa Padrão")) {
+				    	endereco.setText(vs[2]);
+						custo.setText(vs[4]);
+						area.setText(vs[3]);
+						casaPadrao.setSelected(true);
+						quartos.setValue(Integer.parseInt(vs[5]));
+						suites.setValue(Integer.parseInt(vs[6]));
+						vagasEstacionamento.setValue(Integer.parseInt(vs[7]));
+				    	
+				    }
+				    else if (vs[1].equals("Casa Condomínio")) {
+				    	endereco.setText(vs[2]);
+						custo.setText(vs[4]);
+						area.setText(vs[3]);
+						casaCondominio.setSelected(true);
+						quartos.setValue(Integer.parseInt(vs[5]));
+						suites.setValue(Integer.parseInt(vs[6]));
+						vagasEstacionamento.setValue(Integer.parseInt(vs[7]));
+				    }
+				    else if (vs[1].equals("Apartamento")) {
+				    	endereco.setText(vs[2]);
+						custo.setText(vs[4]);
+						area.setText(vs[3]);
+						apartamento.setSelected(true);
+						quartos.setValue(Integer.parseInt(vs[5]));
+						suites.setValue(Integer.parseInt(vs[6]));
+						vagasEstacionamento.setValue(Integer.parseInt(vs[7]));
+				    }
+					
+				}
 			}
 		});
 		
+		JButton btnSobreOsImveis = new JButton("Confirmar");
+		btnSobreOsImveis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(btnEditar.isSelected() == true) {
+					String[] vs = new String[8];
+				    Arrays.fill(vs, "");
+				    String s = comboBox.getSelectedItem().toString();
+				    int x =0;
+				    for(int i = 0; i < 1; i++) {
+				    	while(x < s.length() && s.charAt(x) != '|') {
+				    		vs[i] += s.charAt(x);
+				    		x++;
+				    	}
+				    	x++;
+				    }
+				    if(kitchenette.isSelected()) {
+				    	vs[1] = kitchenette.getText();
+				    }
+				    else if(casaPadrao.isSelected()) {
+				    	vs[1] = casaPadrao.getText();
+				    }
+				    else if(casaCondominio.isSelected()) {
+				    	vs[1] = casaCondominio.getText();
+				    }
+				    else if(apartamento.isSelected()) {
+				    	vs[1] = apartamento.getText();
+				    }
+				    vs[2] = endereco.getText();
+				    vs[3] = area.getText();
+				    vs[4] = custo.getText();
+				    vs[5] = quartos.getValue().toString();
+				    vs[6] = suites.getValue().toString();
+				    vs[7] = vagasEstacionamento.getValue().toString();
+				    ImovelDAO iDAO = new ImovelDAO ();
+				    iDAO.atualizaImovel(vs);
+				    JOptionPane.showMessageDialog(null, "Imóvel atualizado");
+				}
+			}
+		});
 		
+		JLabel lblId = new JLabel("id | categoria | endereço | area (m2) | custo (R$) | quartos | suites | estacionamento");
 		
 		
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(161)
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 413, GroupLayout.PREFERRED_SIZE)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 465, GroupLayout.PREFERRED_SIZE)
 							.addGap(204))
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createParallelGroup(Alignment.TRAILING)
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addContainerGap()
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -364,18 +485,20 @@ public class VisualControleImoveis extends JFrame {
 													.addComponent(suites, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 													.addComponent(quartos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
 									.addGroup(gl_contentPane.createSequentialGroup()
-										.addComponent(btnRelatrio)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnAdicionar)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+											.addGroup(gl_contentPane.createSequentialGroup()
+												.addComponent(btnRelatrio)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(btnAdicionar))
+											.addComponent(lblComandos))
 										.addPreferredGap(ComponentPlacement.UNRELATED)
 										.addComponent(btnRemover)
 										.addGap(18)
 										.addComponent(btnEditar)
 										.addGap(18)
-										.addComponent(comboBox, 0, 238, Short.MAX_VALUE)
+										.addComponent(comboBox, 0, 315, Short.MAX_VALUE)
 										.addGap(18)
-										.addComponent(btnSobreOsImveis))
-									.addComponent(lblComandos)))
+										.addComponent(btnSobreOsImveis))))
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addGap(85)
 								.addComponent(kitchenette)
@@ -385,7 +508,10 @@ public class VisualControleImoveis extends JFrame {
 								.addComponent(casaCondominio)
 								.addPreferredGap(ComponentPlacement.UNRELATED)
 								.addComponent(apartamento)
-								.addGap(183))))
+								.addGap(183)))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addContainerGap(294, Short.MAX_VALUE)
+							.addComponent(lblId)))
 					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
@@ -424,10 +550,15 @@ public class VisualControleImoveis extends JFrame {
 						.addComponent(casaCondominio)
 						.addComponent(apartamento))
 					.addGap(50)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-					.addComponent(lblComandos)
-					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(lblComandos)
+							.addGap(18))
+						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addComponent(lblId)
+							.addGap(33)))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnRelatrio)
 						.addComponent(btnSobreOsImveis)
