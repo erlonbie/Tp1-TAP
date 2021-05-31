@@ -27,6 +27,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.JCheckBox;
+import javax.swing.JSeparator;
 
 public class VisualControleClientes extends JFrame {
 
@@ -37,11 +39,15 @@ public class VisualControleClientes extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private JTextField endereco;
-	private JTextField custo;
-	private JTextField area;
+	private JTextField nome;
+	private JTextField idade;
 	private static JComboBox comboBox;
-	public static ArrayList<String> imoveis = new ArrayList<String>();
+	public static ArrayList<String> imoveis1 = new ArrayList<String>();
+	public static ArrayList<String> clientes = new ArrayList<String>();
+	private JTextField inicio;
+	private JTextField termino;
+	private JTextField custo;
+	private JTextField total;
 	
 	public JComboBox getComboBox() {
 		return comboBox;
@@ -88,8 +94,8 @@ public class VisualControleClientes extends JFrame {
 	}
 	
 	public static void fillComboBox() {
-		ImovelDAO iDAO = new ImovelDAO();
-		iDAO.listaComboBox();
+		ClienteDAO cDAO = new ClienteDAO();
+		cDAO.listaComboBox();
 	}
 	
 	public static void main(String[] args) {
@@ -116,93 +122,66 @@ public class VisualControleClientes extends JFrame {
 	public VisualControleClientes() {
 		setTitle("Imóveis");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(200, 200, 1000, 700);
+		setBounds(200, 200, 1500, 700);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
 		
 		
-		endereco = new JTextField();
-		endereco.setColumns(10);
+		nome = new JTextField();
+		nome.setColumns(10);
 		
-		JLabel lblEndereo = new JLabel("Endereço:");
+		JLabel lblEndereo = new JLabel("Nome:");
 		
-		JLabel lblCusto = new JLabel("Custo:");
+		JLabel lblCusto = new JLabel("Idade:");
+		
+		idade = new JTextField();
+		idade.setColumns(10);
+		
+		JLabel lblId = new JLabel("id | imovel_id | nome | idade");
+		
+		JComboBox comboBox1 = new JComboBox(new Object[]{});
+		
+		JLabel lblCusto_1 = new JLabel("Selecione o imóvel:");
+		
+		JCheckBox seguro = new JCheckBox("Seguro");
+		
+		JCheckBox chaveExtra = new JCheckBox("Chave extra");
+		
+		JCheckBox mobiliado = new JCheckBox("Mobiliado");
+		
+		JLabel lblEndereo_1 = new JLabel("Seguro = 10% dp custo do imóvel");
+		
+		JLabel lblEndereo_1_1 = new JLabel("Chave extra = R$ 200,00");
+		
+		JLabel lblEndereo_1_1_1 = new JLabel("Mobiliado = 30% do custo do imóvel");
+		
+		inicio = new JTextField();
+		inicio.setColumns(10);
+		
+		termino = new JTextField();
+		termino.setColumns(10);
+		
+		JLabel lblCusto_2 = new JLabel("inicio");
+		
+		JLabel lblCusto_2_1 = new JLabel("termino");
 		
 		custo = new JTextField();
 		custo.setColumns(10);
 		
-		JLabel lblArea = new JLabel("Area:");
+		total = new JTextField();
+		total.setColumns(10);
 		
-		area = new JTextField();
-		area.setColumns(10);
+		JLabel lblNewLabel = new JLabel("Custo");
 		
-		JLabel lblQuartos = new JLabel("Quartos:");
+		JLabel lblNewLabel_1 = new JLabel("Total");
 		
-		JLabel lblQuartos_1 = new JLabel("Suítes:");
+		JSeparator separator = new JSeparator();
 		
-		JLabel lblQuartos_2 = new JLabel("Vagas de Estacionamento:");
+		JLabel lblCliente = new JLabel("CLIENTE");
 		
-		JSpinner quartos = new JSpinner();
-		quartos.setModel(new SpinnerNumberModel(1, 1, 5, 1));
-		
-		JSpinner suites = new JSpinner();
-		suites.setModel(new SpinnerNumberModel(1, 0, 5, 1));
-		
-		JSpinner vagasEstacionamento = new JSpinner();
-		vagasEstacionamento.setModel(new SpinnerNumberModel(1, 1, 3, 1));
-		
-		JRadioButton kitchenette = new JRadioButton("Kitchenette");
-		kitchenette.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(kitchenette.isSelected()) {
-					quartos.setValue(1);
-					quartos.setEnabled(false);
-					suites.setEnabled(false);
-					suites.setValue(1);
-					vagasEstacionamento.setEnabled(false);
-					vagasEstacionamento.setValue(1);
-				}
-			}
-		});
-		buttonGroup.add(kitchenette);
-		
-		JRadioButton casaPadrao = new JRadioButton("Casa Padrão");
-		casaPadrao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(kitchenette.isSelected() == false) {
-					quartos.setEnabled(true);
-					suites.setEnabled(true);
-					vagasEstacionamento.setEnabled(true);
-				}
-			}
-		});
-		buttonGroup.add(casaPadrao);
-		
-		JRadioButton casaCondominio = new JRadioButton("Casa Condromínio");
-		casaCondominio.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(kitchenette.isSelected() == false) {
-					quartos.setEnabled(true);
-					suites.setEnabled(true);
-					vagasEstacionamento.setEnabled(true);
-				}
-			}
-		});
-		buttonGroup.add(casaCondominio);
-		
-		JRadioButton apartamento = new JRadioButton("Apartamento");
-		apartamento.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(kitchenette.isSelected() == false) {
-					quartos.setEnabled(true);
-					suites.setEnabled(true);
-					vagasEstacionamento.setEnabled(true);
-				}
-			}
-		});
-		buttonGroup.add(apartamento);
+		JLabel lblCliente_1 = new JLabel("ALUGUEL");
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -222,86 +201,15 @@ public class VisualControleClientes extends JFrame {
 		
 		
 		
-		JButton btnAdicionar = new JButton("Adicionar");
+		JButton btnAdicionar = new JButton("Alugar");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(endereco.getText().length() == 0 || area.getText().length() == 0 || custo.getText().length() == 0) {
+				if(nome.getText().length() == 0 || idade.getText().length() == 0 || inicio.getText().length() == 0 || termino.getText().length() == 0) {
 					//btnAdicionar.setEnabled(false);
 					JOptionPane.showMessageDialog(null, "preencha todos os campos");
 				}
 				else {
-					if(kitchenette.isSelected()) {
-						if(isDouble(area.getText()) && isDouble(custo.getText())) {
-							ImovelDAO iDAO = new ImovelDAO ();
-							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
-							Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), 1, 1, 1, 0, 0, 0, 0);
-							iDAO.adicionaImoveis(i);
-							JOptionPane.showMessageDialog(null, "Kitchenette adicionado");
-							endereco.setText("");
-							custo.setText("");
-							area.setText("");
-							textArea.setText(iDAO.listaApenasUmImovel());
-							//kitchenette.setSelected(false);
-							//textArea.setText(iDAO.retornarImoveis());
-						}
-					}
-					else if(casaPadrao.isSelected()) {
-						if(isDouble(area.getText()) && isDouble(custo.getText()) && Integer.parseInt(quartos.getValue().toString()) >= Integer.parseInt(suites.getValue().toString())) {
-							ImovelDAO iDAO = new ImovelDAO ();
-							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
-							Imovel i = new Imovel("Casa Padrão", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 1, 0, 0);
-							iDAO.adicionaImoveis(i);
-							JOptionPane.showMessageDialog(null, "Casa padrão adicionada");
-							endereco.setText("");
-							custo.setText("");
-							area.setText("");
-							textArea.setText(iDAO.listaApenasUmImovel());
-							//kitchenette.setSelected(false);
-							//textArea.setText(iDAO.retornarImoveis());
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
-						}
-					}
-					else if(casaCondominio.isSelected()) {
-						if(isDouble(area.getText()) && isDouble(custo.getText()) && Integer.parseInt(quartos.getValue().toString()) >= Integer.parseInt(suites.getValue().toString())) {
-							ImovelDAO iDAO = new ImovelDAO ();
-							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
-							Imovel i = new Imovel("Casa Condomínio", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 1, 1, 1, 0);
-							iDAO.adicionaImoveis(i);
-							JOptionPane.showMessageDialog(null, "Casa condomínio adicionada");
-							endereco.setText("");
-							custo.setText("");
-							area.setText("");
-							textArea.setText(iDAO.listaApenasUmImovel());
-							//kitchenette.setSelected(false);
-							//textArea.setText(iDAO.retornarImoveis());
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
-						}
-					}
-					else if(apartamento.isSelected()) {
-						if(isDouble(area.getText()) && isDouble(custo.getText()) && Integer.parseInt(quartos.getValue().toString()) >= Integer.parseInt(suites.getValue().toString())) {
-							ImovelDAO iDAO = new ImovelDAO ();
-							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
-							Imovel i = new Imovel("Apartamento", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 1, 0, 1, 0);
-							iDAO.adicionaImoveis(i);
-							JOptionPane.showMessageDialog(null, "Apartamento adicionado");
-							endereco.setText("");
-							custo.setText("");
-							area.setText("");
-							textArea.setText(iDAO.listaApenasUmImovel());
-							//kitchenette.setSelected(false);
-							//textArea.setText(iDAO.retornarImoveis());
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
-						}
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Selecione um tipo de imóvel!");
-					}
+					
 				}
 				
 			}
@@ -311,12 +219,12 @@ public class VisualControleClientes extends JFrame {
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int fim = 1;
-				String s = comboBox.getSelectedItem().toString();
+				String s = comboBox1.getSelectedItem().toString();
 				for(int i = fim; s.charAt(i+1) != '-'; i++) {
 					fim++;	
 				}
-				textArea.setText("Apaguei o id: " + comboBox.getSelectedItem().toString().substring(0, fim));
-				s = comboBox.getSelectedItem().toString().substring(0, fim);
+				textArea.setText("Apaguei o id: " + comboBox1.getSelectedItem().toString().substring(0, fim));
+				s = comboBox1.getSelectedItem().toString().substring(0, fim);
 				ImovelDAO iDAO = new ImovelDAO ();
 				iDAO.removeImoveis(s);
 				JOptionPane.showMessageDialog(null, "Imóvel removido com sucesso");
@@ -328,9 +236,8 @@ public class VisualControleClientes extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		//fillComboBox();
-		comboBox = new JComboBox(imoveis.toArray());
-		//comboBox.setModel(new DefaultComboBoxModel(imoveis));
+		
+		comboBox = new JComboBox(imoveis1.toArray());
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(btnEditar.isSelected() == true) {
@@ -345,47 +252,6 @@ public class VisualControleClientes extends JFrame {
 				    	}
 				    	x++;
 				    }
-				    if(vs[1].equals("Kitchenette")) {
-				    	endereco.setText(vs[2]);
-						custo.setText(vs[4]);
-						area.setText(vs[3]);
-						kitchenette.setSelected(true);
-						quartos.setValue(1);
-						quartos.setEnabled(false);
-						suites.setEnabled(false);
-						suites.setValue(1);
-						vagasEstacionamento.setEnabled(false);
-						vagasEstacionamento.setValue(1);
-				    }
-				    else if (vs[1].equals("Casa Padrão")) {
-				    	endereco.setText(vs[2]);
-						custo.setText(vs[4]);
-						area.setText(vs[3]);
-						casaPadrao.setSelected(true);
-						quartos.setValue(Integer.parseInt(vs[5]));
-						suites.setValue(Integer.parseInt(vs[6]));
-						vagasEstacionamento.setValue(Integer.parseInt(vs[7]));
-				    	
-				    }
-				    else if (vs[1].equals("Casa Condomínio")) {
-				    	endereco.setText(vs[2]);
-						custo.setText(vs[4]);
-						area.setText(vs[3]);
-						casaCondominio.setSelected(true);
-						quartos.setValue(Integer.parseInt(vs[5]));
-						suites.setValue(Integer.parseInt(vs[6]));
-						vagasEstacionamento.setValue(Integer.parseInt(vs[7]));
-				    }
-				    else if (vs[1].equals("Apartamento")) {
-				    	endereco.setText(vs[2]);
-						custo.setText(vs[4]);
-						area.setText(vs[3]);
-						apartamento.setSelected(true);
-						quartos.setValue(Integer.parseInt(vs[5]));
-						suites.setValue(Integer.parseInt(vs[6]));
-						vagasEstacionamento.setValue(Integer.parseInt(vs[7]));
-				    }
-					
 				}
 			}
 		});
@@ -396,7 +262,7 @@ public class VisualControleClientes extends JFrame {
 				if(btnEditar.isSelected() == true) {
 					String[] vs = new String[8];
 				    Arrays.fill(vs, "");
-				    String s = comboBox.getSelectedItem().toString();
+				    String s = comboBox1.getSelectedItem().toString();
 				    int x =0;
 				    for(int i = 0; i < 1; i++) {
 				    	while(x < s.length() && s.charAt(x) != '|') {
@@ -405,24 +271,6 @@ public class VisualControleClientes extends JFrame {
 				    	}
 				    	x++;
 				    }
-				    if(kitchenette.isSelected()) {
-				    	vs[1] = kitchenette.getText();
-				    }
-				    else if(casaPadrao.isSelected()) {
-				    	vs[1] = casaPadrao.getText();
-				    }
-				    else if(casaCondominio.isSelected()) {
-				    	vs[1] = casaCondominio.getText();
-				    }
-				    else if(apartamento.isSelected()) {
-				    	vs[1] = apartamento.getText();
-				    }
-				    vs[2] = endereco.getText();
-				    vs[3] = area.getText();
-				    vs[4] = custo.getText();
-				    vs[5] = quartos.getValue().toString();
-				    vs[6] = suites.getValue().toString();
-				    vs[7] = vagasEstacionamento.getValue().toString();
 				    ImovelDAO iDAO = new ImovelDAO ();
 				    iDAO.atualizaImovel(vs);
 				    JOptionPane.showMessageDialog(null, "Imóvel atualizado");
@@ -430,128 +278,160 @@ public class VisualControleClientes extends JFrame {
 			}
 		});
 		
-		JLabel lblId = new JLabel("id | categoria | endereço | area (m2) | custo (R$) | quartos | suites | estacionamento");
-		
 		
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 465, GroupLayout.PREFERRED_SIZE)
-							.addGap(204))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createParallelGroup(Alignment.TRAILING)
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGap(153)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addComponent(lblEndereo)
-											.addComponent(lblCusto)
-											.addComponent(lblArea))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(endereco, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE)
-											.addGroup(gl_contentPane.createSequentialGroup()
-												.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-													.addComponent(custo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-													.addComponent(area, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGap(29)
-												.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-													.addComponent(lblQuartos)
-													.addComponent(lblQuartos_1, GroupLayout.PREFERRED_SIZE, 62, GroupLayout.PREFERRED_SIZE)
-													.addComponent(lblQuartos_2, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE))
-												.addPreferredGap(ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-												.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-													.addComponent(vagasEstacionamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-													.addComponent(suites, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-													.addComponent(quartos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addGroup(gl_contentPane.createSequentialGroup()
-												.addComponent(btnRelatrio)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(btnAdicionar))
-											.addComponent(lblComandos))
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnRemover)
-										.addGap(18)
-										.addComponent(btnEditar)
-										.addGap(18)
-										.addComponent(comboBox, 0, 315, Short.MAX_VALUE)
-										.addGap(18)
-										.addComponent(btnSobreOsImveis))))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGap(85)
-								.addComponent(kitchenette)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(casaPadrao)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(casaCondominio)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(apartamento)
-								.addGap(183)))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addContainerGap(294, Short.MAX_VALUE)
-							.addComponent(lblId)))
-					.addContainerGap())
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblComandos)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(btnRelatrio)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnAdicionar))
+								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+									.addComponent(lblCliente_1, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+									.addGap(56)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnRemover)
+							.addGap(18)
+							.addComponent(btnEditar)
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(comboBox1, 0, 739, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(btnSobreOsImveis))
+								.addComponent(lblId)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(153)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblEndereo)
+												.addComponent(lblCusto))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(nome, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE)
+												.addComponent(idade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(8)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 415, GroupLayout.PREFERRED_SIZE)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(8)
+													.addComponent(lblCusto_1, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addComponent(seguro)
+													.addGap(18)
+													.addComponent(chaveExtra)
+													.addGap(18)
+													.addComponent(mobiliado))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+														.addComponent(inicio, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+														.addComponent(lblCusto_2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
+													.addGap(18)
+													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+														.addComponent(lblCusto_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+														.addComponent(termino, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+														.addComponent(custo, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+														.addComponent(lblNewLabel))
+													.addGap(18)
+													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+														.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+														.addComponent(total, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))))))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(41)
+									.addComponent(lblCliente)))
+							.addGap(174)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblEndereo_1_1_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEndereo_1_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEndereo_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
+								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 465, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)))
+					.addGap(208))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(33)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 651, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(806, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(33)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(endereco, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEndereo))
-					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblCusto)
+							.addGap(33)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(nome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEndereo))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblArea))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblCusto)
+								.addComponent(idade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(custo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap()
+							.addComponent(lblEndereo_1)
+							.addGap(2)
+							.addComponent(lblEndereo_1_1)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(area, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lblEndereo_1_1_1))
+						.addComponent(lblCliente))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(176)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 94, Short.MAX_VALUE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblCliente_1)
+							.addGap(46)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblQuartos)
-								.addComponent(quartos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblCusto_2)
+								.addComponent(lblCusto_2_1))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(inicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(termino, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(seguro)
+								.addComponent(chaveExtra)
+								.addComponent(mobiliado))
+							.addGap(18)
+							.addComponent(lblCusto_1)
+							.addGap(18)
+							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(28)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(custo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(total, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblQuartos_1)
-								.addComponent(suites, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblQuartos_2)
-								.addComponent(vagasEstacionamento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(78)
+								.addComponent(lblNewLabel)
+								.addComponent(lblNewLabel_1))
+							.addGap(187)))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(kitchenette)
-						.addComponent(casaPadrao)
-						.addComponent(casaCondominio)
-						.addComponent(apartamento))
-					.addGap(50)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(lblComandos)
-							.addGap(18))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(lblId)
-							.addGap(33)))
+						.addComponent(lblComandos)
+						.addComponent(lblId))
+					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnRelatrio)
 						.addComponent(btnSobreOsImveis)
 						.addComponent(btnAdicionar)
 						.addComponent(btnRemover)
 						.addComponent(btnEditar)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(comboBox1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
