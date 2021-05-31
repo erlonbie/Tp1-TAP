@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -42,12 +43,17 @@ public class VisualControleClientes extends JFrame {
 	private JTextField nome;
 	private JTextField idade;
 	private static JComboBox comboBox;
+	private static JComboBox comboBox1;
 	public static ArrayList<String> imoveis1 = new ArrayList<String>();
 	public static ArrayList<String> clientes = new ArrayList<String>();
 	private JTextField inicio;
 	private JTextField termino;
 	private JTextField custo;
 	private JTextField total;
+	private double seguroV = 0.0;
+	private double chaveExtraV = 0.0;
+	private double mobiliadoV = 0.0;
+	private DecimalFormat dec = new DecimalFormat("#0.00");
 	
 	public JComboBox getComboBox() {
 		return comboBox;
@@ -98,8 +104,14 @@ public class VisualControleClientes extends JFrame {
 		cDAO.listaComboBox();
 	}
 	
+	public static void fillComboBox2() {
+		ClienteDAO cDAO = new ClienteDAO();
+		cDAO.listaComboBox2();
+	}
+	
 	public static void main(String[] args) {
 		fillComboBox();
+		fillComboBox2();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -141,17 +153,59 @@ public class VisualControleClientes extends JFrame {
 		
 		JLabel lblId = new JLabel("id | imovel_id | nome | idade");
 		
-		JComboBox comboBox1 = new JComboBox(new Object[]{});
+		
 		
 		JLabel lblCusto_1 = new JLabel("Selecione o imóvel:");
 		
 		JCheckBox seguro = new JCheckBox("Seguro");
+		seguro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(seguro.isSelected()) {
+					seguroV = Double.parseDouble(custo.getText()) * 1.1;
+					double tot =  seguroV +chaveExtraV +mobiliadoV;
+					total.setText(dec.format(tot));
+				}
+				else {
+					seguroV = 0;
+					double tot = Double.parseDouble(custo.getText()) +chaveExtraV +mobiliadoV;
+					total.setText(dec.format(tot));
+				}
+			}
+		});
 		
 		JCheckBox chaveExtra = new JCheckBox("Chave extra");
+		chaveExtra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(chaveExtra.isSelected()) {
+					chaveExtraV = 200;
+					double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV +mobiliadoV;
+					total.setText(dec.format(tot));
+				}
+				else {
+					chaveExtraV = 0;
+					double tot = Double.parseDouble(custo.getText()) +seguroV +mobiliadoV;
+					total.setText(dec.format(tot));
+				}
+			}
+		});
 		
 		JCheckBox mobiliado = new JCheckBox("Mobiliado");
+		mobiliado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(mobiliado.isSelected()) {
+					mobiliadoV = Double.parseDouble(custo.getText()) * 1.3;
+					double tot = seguroV +chaveExtraV +mobiliadoV;
+					total.setText(dec.format(tot));
+				}
+				else {
+					mobiliadoV = 0;
+					double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV;
+					total.setText(dec.format(tot));
+				}
+			}
+		});
 		
-		JLabel lblEndereo_1 = new JLabel("Seguro = 10% dp custo do imóvel");
+		JLabel lblEndereo_1 = new JLabel("Seguro = 10% do custo do imóvel");
 		
 		JLabel lblEndereo_1_1 = new JLabel("Chave extra = R$ 200,00");
 		
@@ -168,6 +222,13 @@ public class VisualControleClientes extends JFrame {
 		JLabel lblCusto_2_1 = new JLabel("termino");
 		
 		custo = new JTextField();
+		
+		custo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					
+				
+			}
+		});
 		custo.setColumns(10);
 		
 		total = new JTextField();
@@ -238,23 +299,30 @@ public class VisualControleClientes extends JFrame {
 		});
 		
 		comboBox = new JComboBox(imoveis1.toArray());
+		comboBox.setSelectedItem(null);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(btnEditar.isSelected() == true) {
-					String[] vs = new String[8];
-				    Arrays.fill(vs, "");
-				    String s = comboBox.getSelectedItem().toString();
-				    int x =0;
-				    for(int i = 0; i < 8; i++) {
-				    	while(x < s.length() && s.charAt(x) != '|') {
-				    		vs[i] += s.charAt(x);
-				    		x++;
-				    	}
-				    	x++;
-				    }
+				{
+				int fim = 1;
+				String s1 = comboBox.getSelectedItem().toString();
+				for(int i = fim; s1.charAt(i) != '|'; i++) {
+					fim++;	
+				}
+				s1 = s1.substring(0, fim);
+				System.out.println(s1);
+				ImovelDAO iDAO = new ImovelDAO ();
+				String s2 = iDAO.retornaCusto(s1);
+				custo.setText(s2);
+				}
+				
+				{
+					double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV +mobiliadoV;
+					total.setText(String.valueOf(tot));
 				}
 			}
 		});
+		
+		comboBox1 = new JComboBox(clientes.toArray());
 		
 		JButton btnSobreOsImveis = new JButton("Confirmar");
 		btnSobreOsImveis.addActionListener(new ActionListener() {

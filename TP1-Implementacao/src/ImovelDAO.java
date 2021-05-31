@@ -105,6 +105,23 @@ public class ImovelDAO extends BancoDeDados {
 		 
 	}
 	
+	public String retornaCusto(String id) {
+		String s = "";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM imoveis WHERE id="+id);
+			while(rs.next()) {
+				s =  rs.getString(5);
+			}
+			return s;
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no retornaCusto");
+			System.out.println(e.getMessage());
+		}
+		return s;
+	}
+	
 //	public static void main (String args[]) {
 //		ImovelDAO iDAO = new ImovelDAO ();
 //		iDAO.removeImoveis("4");

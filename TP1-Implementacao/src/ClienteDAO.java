@@ -82,6 +82,21 @@ public class ClienteDAO extends BancoDeDados {
 		
 	}
 	
+	public void listaComboBox2() {
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM clientes");
+			while(rs.next()) {
+				i.clientes.add(rs.getString(1) + "|" + rs.getString(2) + "|" + rs.getString(3)+  "|" + rs.getString(4));
+			}
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no listaImoveis");
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
 	public void removeClientes(String id) {
 		try {
 			Statement st = conexao.createStatement();
