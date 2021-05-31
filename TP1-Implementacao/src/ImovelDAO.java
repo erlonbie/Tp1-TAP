@@ -122,6 +122,37 @@ public class ImovelDAO extends BancoDeDados {
 		return s;
 	}
 	
+	public void alugaImovel() {
+		try {
+			Statement st = conexao.createStatement();
+			st.executeUpdate("UPDATE imoveis SET alugado='1'");
+		}
+		catch (SQLException e){
+			System.out.println("Falhou no alugaImovel");
+			System.out.println(e.getMessage());
+		}
+		 
+	}
+	
+	public boolean alugado(String id) {
+		String s = "";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM imoveis WHERE id="+id);
+			while(rs.next()) {
+				s =  rs.getString(12);
+			}
+			if(Integer.parseInt(s) == 1) {
+				return true;
+			}
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no verificaAlugado");
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+	
 //	public static void main (String args[]) {
 //		ImovelDAO iDAO = new ImovelDAO ();
 //		iDAO.removeImoveis("4");

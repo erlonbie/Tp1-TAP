@@ -30,6 +30,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
+import com.toedter.calendar.JDateChooser;
 
 public class VisualControleClientes extends JFrame {
 
@@ -46,8 +47,6 @@ public class VisualControleClientes extends JFrame {
 	private static JComboBox comboBox1;
 	public static ArrayList<String> imoveis1 = new ArrayList<String>();
 	public static ArrayList<String> clientes = new ArrayList<String>();
-	private JTextField inicio;
-	private JTextField termino;
 	private JTextField custo;
 	private JTextField total;
 	private double seguroV = 0.0;
@@ -211,15 +210,15 @@ public class VisualControleClientes extends JFrame {
 		
 		JLabel lblEndereo_1_1_1 = new JLabel("Mobiliado = 30% do custo do imóvel");
 		
-		inicio = new JTextField();
-		inicio.setColumns(10);
-		
-		termino = new JTextField();
-		termino.setColumns(10);
-		
 		JLabel lblCusto_2 = new JLabel("inicio");
 		
 		JLabel lblCusto_2_1 = new JLabel("termino");
+		
+		JDateChooser inicio = new JDateChooser();
+		inicio.setDateFormatString("yyyy-MM-dd");
+		
+		JDateChooser termino = new JDateChooser();
+		termino.setDateFormatString("yyyy-MM-dd");
 		
 		custo = new JTextField();
 		
@@ -265,14 +264,39 @@ public class VisualControleClientes extends JFrame {
 		JButton btnAdicionar = new JButton("Alugar");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(nome.getText().length() == 0 || idade.getText().length() == 0 || inicio.getText().length() == 0 || termino.getText().length() == 0) {
+				if(nome.getText().length() == 0 || idade.getText().length() == 0) {
 					//btnAdicionar.setEnabled(false);
 					JOptionPane.showMessageDialog(null, "preencha todos os campos");
 				}
 				else {
+					try {
+						if(inicio.getDate().compareTo(termino.getDate()) >0) {
+							JOptionPane.showMessageDialog(null, "Data de início deve ser antes da data de término");
+								
+						}
+					}
+					catch (NullPointerException e1) {
+						JOptionPane.showMessageDialog(null, "preencha as datas");
+					}
+					int fim = 1;
+					String s1 = comboBox.getSelectedItem().toString();
+					for(int i = fim; s1.charAt(i) != '|'; i++) {
+						fim++;	
+					}
+					s1 = s1.substring(0, fim);
+					ImovelDAO iDAO = new ImovelDAO();
+					if(iDAO.alugado(s1)) {
+						JOptionPane.showMessageDialog(null, "imóvel já está alugado");
+					}
+					else {
+						Cliente c = new Cliente(Integer.parseInt(s1), nome.getText(), Integer.parseInt(idade.getText()));
+						ClienteDAO cDAO = new ClienteDAO();
+						cDAO.adicionaCliente(c);
+						iDAO.alugaImovel();
+						JOptionPane.showMessageDialog(null, "Parabéns pela aquisição!");
+					}
 					
 				}
-				
 			}
 		});
 		
@@ -309,7 +333,7 @@ public class VisualControleClientes extends JFrame {
 					fim++;	
 				}
 				s1 = s1.substring(0, fim);
-				System.out.println(s1);
+				//System.out.println(s1);
 				ImovelDAO iDAO = new ImovelDAO ();
 				String s2 = iDAO.retornaCusto(s1);
 				custo.setText(s2);
@@ -348,6 +372,7 @@ public class VisualControleClientes extends JFrame {
 		
 		
 		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -355,13 +380,13 @@ public class VisualControleClientes extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblComandos)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(btnRelatrio)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(btnAdicionar))
-								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(lblCliente_1, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
 									.addGap(56)))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -371,7 +396,7 @@ public class VisualControleClientes extends JFrame {
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(comboBox1, 0, 739, Short.MAX_VALUE)
+									.addComponent(comboBox1, 0, 733, Short.MAX_VALUE)
 									.addGap(18)
 									.addComponent(btnSobreOsImveis))
 								.addComponent(lblId)))
@@ -402,13 +427,9 @@ public class VisualControleClientes extends JFrame {
 													.addGap(18)
 													.addComponent(mobiliado))
 												.addGroup(gl_contentPane.createSequentialGroup()
-													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-														.addComponent(inicio, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
-														.addComponent(lblCusto_2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-													.addGap(18)
-													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblCusto_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-														.addComponent(termino, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))
+													.addComponent(lblCusto_2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+													.addGap(160)
+													.addComponent(lblCusto_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
 												.addGroup(gl_contentPane.createSequentialGroup()
 													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 														.addComponent(custo, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
@@ -416,17 +437,21 @@ public class VisualControleClientes extends JFrame {
 													.addGap(18)
 													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 														.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-														.addComponent(total, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))))))
+														.addComponent(total, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addComponent(inicio, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
+													.addGap(18)
+													.addComponent(termino, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))))))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(41)
 									.addComponent(lblCliente)))
-							.addGap(174)
+							.addGap(153)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblEndereo_1_1_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblEndereo_1_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblEndereo_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
 								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 465, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)))
+							.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)))
 					.addGap(208))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(33)
@@ -458,7 +483,7 @@ public class VisualControleClientes extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(176)
 							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 94, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED, 91, Short.MAX_VALUE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -467,11 +492,11 @@ public class VisualControleClientes extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblCusto_2)
 								.addComponent(lblCusto_2_1))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(inicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(termino, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(14)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(seguro)
 								.addComponent(chaveExtra)

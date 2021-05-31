@@ -72,7 +72,7 @@ public class ClienteDAO extends BancoDeDados {
 			Statement st = conexao.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM imoveis");
 			while(rs.next()) {
-				i.imoveis1.add(rs.getString(1) + "|" + rs.getString(2) + "|" + rs.getString(3)+  "|" + rs.getString(4)  + "|" + rs.getString(5) +  "|" + rs.getString(6) +  "|" + rs.getString(7) +  "|" + rs.getString(8) + "|" + (rs.getString(12) == "1"? "Alugado" : "Disponível"));
+				i.imoveis1.add(rs.getString(1) + "|" + rs.getString(2) + "|" + rs.getString(3)+  "|" + rs.getString(4)  + "|" + rs.getString(5) +  "|" + rs.getString(6) +  "|" + rs.getString(7) +  "|" + rs.getString(8) + "|" + (Integer.parseInt(rs.getString(12)) == 1? "Alugado" : "Disponível"));
 			}
 		}
 		catch (SQLException e) { 
