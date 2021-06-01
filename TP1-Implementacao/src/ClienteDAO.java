@@ -49,6 +49,23 @@ public class ClienteDAO extends BancoDeDados {
 		return s;
 	}
 	
+	public String listaUmCliente(String id) {
+		String s = "Imóvel Adicionado: \n";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM imoveis WHERE id="+id);
+			while(rs.next()) {
+				s += "Id: " + rs.getString(1) + "\n" + "Categoria: " + rs.getString(2) + "\n" + "Endereço: " + rs.getString(3)+ "\n" + "Area: " + rs.getString(4) + "\n" + "Custo: " + rs.getString(5) + "\n" + "Quartos: " + rs.getString(6) + "\n" + "Suítes: " + rs.getString(7) + "\n" + "Vagas de estacionamento: " + rs.getString(8) + "\n" + "Piscina: " + rs.getString(9) + "\n" + "Churrasqueira: " + rs.getString(10) + "\n" + "Playground: " + rs.getString(11) + "\n" + "Alugado: " + rs.getString(12) +"\n";
+			}
+			return s;
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no listaUmCliente");
+			System.out.println(e.getMessage());
+		}
+		return s;
+	}
+	
 	public int idUltimoCliente() {
 		int id = 0;
 		try {

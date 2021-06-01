@@ -122,10 +122,10 @@ public class ImovelDAO extends BancoDeDados {
 		return s;
 	}
 	
-	public void alugaImovel() {
+	public void alugaImovel(String id) {
 		try {
 			Statement st = conexao.createStatement();
-			st.executeUpdate("UPDATE imoveis SET alugado='1'");
+			st.executeUpdate("UPDATE imoveis SET alugado='1' WHERE id="+id);
 		}
 		catch (SQLException e){
 			System.out.println("Falhou no alugaImovel");

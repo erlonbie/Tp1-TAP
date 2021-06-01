@@ -119,7 +119,94 @@ public class AluguelDAO extends BancoDeDados {
 			System.out.println("Falhou no atualizaImovel");
 			System.out.println(e.getMessage());
 		}
-		 
+	}
+	
+	public String retornaIdClienteImovel(String mes, String ano) {
+		String s = "";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM alugueis WHERE ("+mes+"BETWEEN month(inicio) AND month(termino)) AND ("+ano+"BETWEEN YEAR(inicio) AND YEAR(termino))");
+			while(rs.next()) {
+				s = rs.getString(2)+rs.getString(3);
+			}
+			return s;
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no retornaIdClienteImovel");
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public String textoRelatorio3(String id_cliente) {
+		String s = "";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs3 = st.executeQuery("SELECT * FROM clientes WHERE id="+id_cliente);
+			while(rs3.next()) {
+				s = "Cliente: " + rs3.getString(3)+'\n';
+			}
+		}
+		catch (SQLException e) {
+			System.out.println("Falhou no textoRelatorio3");
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public String textoRelatorio2(String id_imovel) {
+		
+		String s = "";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs2 = st.executeQuery("SELECT * FROM clientes WHERE id="+id_imovel);
+			while(rs2.next()) {
+				s = "Imóvel_ID: " + rs2.getString(1)+", Categoria: "+rs2.getString(2)+'\n'+"Custo: "+rs2.getString(5)+" R$"+'\n';
+			}
+		}
+		catch (SQLException e) {
+			System.out.println("Falhou no textoRelatorio2");
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public String textoRelatorio(String mes, String ano) {
+		String s = "";
+		double total = 0;
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM AluguelBD.alugueis WHERE ("+mes+" BETWEEN month(inicio) AND month(termino)) AND ("+ano+" BETWEEN YEAR(inicio) AND YEAR(termino))");
+			while(rs.next()) {
+				String id_cliente = rs.getString(2);
+				String id_imovel = rs.getString(3);
+//				System.out.println(id_cliente);
+//				System.out.println(id_imovel);
+				Statement st2 = conexao.createStatement();
+				ResultSet rs2 = st2.executeQuery("SELECT * FROM imoveis WHERE id="+id_imovel);
+				while(rs2.next()) {
+					Statement st3 = conexao.createStatement();
+					ResultSet rs3 = st3.executeQuery("SELECT * FROM clientes WHERE id="+id_cliente);
+					while(rs3.next()) {
+						s += "Cliente: " + rs3.getString(3)+'\n';
+					}
+					//st3.close();
+					s += "Imóvel_ID: " + rs2.getString(1)+", Categoria: "+rs2.getString(2)+'\n'+"Custo: "+rs2.getString(5)+" R$"+'\n';
+					total = Double.parseDouble(rs2.getString(5));
+				}
+				total += Double.parseDouble(rs.getString(9));
+				s += "No mês "+mes+" de "+ano+":"+'\n'+"    "+"Seguro: "+rs.getString(6)+" R$"+'\n'+"    "+"Chave-extra: "+rs.getString(7)+" R$"+'\n'+"    "+"Mobília: "+rs.getString(8)+" R$"+'\n'+"    "+"Subtotal: "+rs.getString(9)+" R$"+'\n'+ "Total(Subtotal + custo): "+String.valueOf(total) + " R$" +'\n' +'\n';
+			}
+			if(s.length() > 0) {
+				return s;				
+			}
+			return "Nenhum aluguél encontrado no mês selecionado";
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no textoRelatorio");
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 	
 //	public static void main (String args[]) {

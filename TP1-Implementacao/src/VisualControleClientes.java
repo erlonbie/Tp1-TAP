@@ -163,15 +163,17 @@ public class VisualControleClientes extends JFrame {
 		JCheckBox seguro = new JCheckBox("Seguro");
 		seguro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(seguro.isSelected()) {
-					seguroV = Double.parseDouble(custo.getText()) * 0.1;
-					double tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
-					total.setText(dec.format(tot));
-				}
-				else {
-					seguroV = 0;
-					double tot = Double.parseDouble(custo.getText()) +chaveExtraV +mobiliadoV;
-					total.setText(dec.format(tot));
+				if(comboBox.getSelectedItem() != null) {
+					if(seguro.isSelected()) {
+						seguroV = Double.parseDouble(custo.getText()) * 0.1;
+						double tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
+						total.setText(dec.format(tot));
+					}
+					else {
+						seguroV = 0;
+						double tot = Double.parseDouble(custo.getText()) +chaveExtraV +mobiliadoV;
+						total.setText(dec.format(tot));
+					}
 				}
 			}
 		});
@@ -179,15 +181,17 @@ public class VisualControleClientes extends JFrame {
 		JCheckBox chaveExtra = new JCheckBox("Chave extra");
 		chaveExtra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(chaveExtra.isSelected()) {
-					chaveExtraV = 200;
-					double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV +mobiliadoV;
-					total.setText(dec.format(tot));
-				}
-				else {
-					chaveExtraV = 0;
-					double tot = Double.parseDouble(custo.getText()) +seguroV +mobiliadoV;
-					total.setText(dec.format(tot));
+				if(comboBox.getSelectedItem() != null) {
+					if(chaveExtra.isSelected()) {
+						chaveExtraV = 200;
+						double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV +mobiliadoV;
+						total.setText(dec.format(tot));
+					}
+					else {
+						chaveExtraV = 0;
+						double tot = Double.parseDouble(custo.getText()) +seguroV +mobiliadoV;
+						total.setText(dec.format(tot));
+					}
 				}
 			}
 		});
@@ -195,15 +199,17 @@ public class VisualControleClientes extends JFrame {
 		JCheckBox mobiliado = new JCheckBox("Mobiliado");
 		mobiliado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(mobiliado.isSelected()) {
-					mobiliadoV = Double.parseDouble(custo.getText()) * 0.3;
-					double tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
-					total.setText(dec.format(tot));
-				}
-				else {
-					mobiliadoV = 0;
-					double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV;
-					total.setText(dec.format(tot));
+				if(comboBox.getSelectedItem() != null) {
+					if(mobiliado.isSelected()) {
+						mobiliadoV = Double.parseDouble(custo.getText()) * 0.3;
+						double tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
+						total.setText(dec.format(tot));
+					}
+					else {
+						mobiliadoV = 0;
+						double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV;
+						total.setText(dec.format(tot));
+					}
 				}
 			}
 		});
@@ -263,8 +269,11 @@ public class VisualControleClientes extends JFrame {
 		JButton btnRelatrio = new JButton("Relatório");
 		btnRelatrio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ImovelDAO iDAO = new ImovelDAO ();
-				textArea.setText(iDAO.retornarImoveis());
+				int mesV = mes.getMonth()+1;
+				int anoV = ano.getYear();
+				AluguelDAO a = new AluguelDAO();
+				String texto = a.textoRelatorio(String.valueOf(mesV), String.valueOf(anoV));
+				textArea.setText(texto);
 			}
 		});
 		
@@ -303,14 +312,14 @@ public class VisualControleClientes extends JFrame {
 						cDAO.adicionaCliente(c);
 						
 						//DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-						System.out.println(cDAO.idUltimoCliente());
-						System.out.println(cDAO.imovelUltimoCliente());
-						Aluguel a = new Aluguel(cDAO.idUltimoCliente(), cDAO.imovelUltimoCliente(), inicio.getDate(), termino.getDate(), seguroV, chaveExtraV, mobiliadoV);
+						int ult_id = cDAO.idUltimoCliente();
+						int ult_imovel = cDAO.imovelUltimoCliente();
+						Aluguel a = new Aluguel(ult_id, ult_imovel, inicio.getDate(), termino.getDate(), seguroV, chaveExtraV, mobiliadoV);
 						AluguelDAO aDAO = new AluguelDAO();
 						aDAO.adicionaAluguel(a);
 						
 						
-						iDAO.alugaImovel();
+						iDAO.alugaImovel(String.valueOf(ult_imovel));
 						JOptionPane.showMessageDialog(null, "Parabéns pela aquisição!");
 					}
 					
@@ -344,6 +353,9 @@ public class VisualControleClientes extends JFrame {
 		comboBox.setSelectedItem(null);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				seguro.setSelected(false);
+				chaveExtra.setSelected(false);
+				mobiliado.setSelected(false);
 				{
 				int fim = 1;
 				String s1 = comboBox.getSelectedItem().toString();
