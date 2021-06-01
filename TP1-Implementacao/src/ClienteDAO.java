@@ -159,10 +159,10 @@ public class ClienteDAO extends BancoDeDados {
 				while(rs2.next()) {
 					String aluguel_id = rs2.getString(1);
 					Statement st3 = conexao.createStatement();
-					ResultSet rs3 = st3.executeQuery("DELETE FROM alugueis WHERE id="+aluguel_id);
+					st3.executeUpdate("DELETE FROM alugueis WHERE id="+aluguel_id);
 				}
 				Statement st3 = conexao.createStatement();
-				ResultSet rs3 = st3.executeQuery("DELETE FROM clientes WHERE id="+id);
+				st3.executeUpdate("DELETE FROM clientes WHERE id="+id);
 			}
 			return true;
 		}
