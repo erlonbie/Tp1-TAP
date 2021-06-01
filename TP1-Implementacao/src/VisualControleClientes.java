@@ -330,16 +330,21 @@ public class VisualControleClientes extends JFrame {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int fim = 1;
-				String s = comboBox1.getSelectedItem().toString();
-				for(int i = fim; s.charAt(i+1) != '-'; i++) {
-					fim++;	
+				if(comboBox1.getSelectedItem() != null) {
+					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover?"+'\n'+"!Deletar um cliente acarretará em remover um aluguel!");
+					if(confirm == 0) {
+						int fim = 1;
+						String s = comboBox1.getSelectedItem().toString();
+						for(int i = fim; s.charAt(i) != '|'; i++) {
+							fim++;	
+						}
+						textArea.setText("Apaguei o id: " + comboBox1.getSelectedItem().toString().substring(0, fim));
+						s = comboBox1.getSelectedItem().toString().substring(0, fim);
+						System.out.println(s);
+						ClienteDAO cDAO = new ClienteDAO();
+						cDAO.removeCliente(s);
+					}
 				}
-				textArea.setText("Apaguei o id: " + comboBox1.getSelectedItem().toString().substring(0, fim));
-				s = comboBox1.getSelectedItem().toString().substring(0, fim);
-				ImovelDAO iDAO = new ImovelDAO ();
-				iDAO.removeImoveis(s);
-				JOptionPane.showMessageDialog(null, "Imóvel removido com sucesso");
 			}
 		});
 		
@@ -377,7 +382,7 @@ public class VisualControleClientes extends JFrame {
 		});
 		
 		comboBox1 = new JComboBox(clientes.toArray());
-		
+		comboBox1.setSelectedItem(null);
 		JButton btnSobreOsImveis = new JButton("Confirmar");
 		btnSobreOsImveis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -426,14 +431,40 @@ public class VisualControleClientes extends JFrame {
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(comboBox1, 0, 733, Short.MAX_VALUE)
+									.addComponent(comboBox1, 0, 919, Short.MAX_VALUE)
 									.addGap(18)
 									.addComponent(btnSobreOsImveis))
 								.addComponent(lblId)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(153)
+									.addGap(49)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 717, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(inicio, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
+												.addComponent(custo, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblNewLabel)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addComponent(seguro)
+													.addGap(18)
+													.addComponent(chaveExtra)
+													.addGap(18)
+													.addComponent(mobiliado))
+												.addComponent(lblCusto_2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblCusto_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+												.addComponent(termino, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(7)
+													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+														.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+														.addComponent(total, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))))
+											.addGap(295))
+										.addComponent(lblCusto_1, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(41)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -443,45 +474,14 @@ public class VisualControleClientes extends JFrame {
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 												.addComponent(nome, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE)
 												.addComponent(idade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGap(8)
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-												.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 415, GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addGap(8)
-													.addComponent(lblCusto_1, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addComponent(seguro)
-													.addGap(18)
-													.addComponent(chaveExtra)
-													.addGap(18)
-													.addComponent(mobiliado))
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addComponent(lblCusto_2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-													.addGap(160)
-													.addComponent(lblCusto_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-														.addComponent(custo, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
-														.addComponent(lblNewLabel))
-													.addGap(18)
-													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-														.addComponent(total, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))
-												.addGroup(gl_contentPane.createSequentialGroup()
-													.addComponent(inicio, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
-													.addGap(18)
-													.addComponent(termino, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE))))))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(41)
-									.addComponent(lblCliente)))
+										.addComponent(lblCliente))))
 							.addGap(153)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblEndereo_1_1_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblEndereo_1_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblEndereo_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
 								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 465, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, 33, Short.MAX_VALUE)))
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 					.addGap(208))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(33)
@@ -489,21 +489,12 @@ public class VisualControleClientes extends JFrame {
 						.addComponent(mes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(ano, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 651, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(806, Short.MAX_VALUE))
+					.addContainerGap(992, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(33)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(nome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblEndereo))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblCusto)
-								.addComponent(idade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(lblEndereo_1)
@@ -511,7 +502,17 @@ public class VisualControleClientes extends JFrame {
 							.addComponent(lblEndereo_1_1)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblEndereo_1_1_1))
-						.addComponent(lblCliente))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblCliente)
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(nome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEndereo))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblCusto)
+								.addComponent(idade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(176)
@@ -520,25 +521,27 @@ public class VisualControleClientes extends JFrame {
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblCliente_1)
-							.addGap(46)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblCusto_2)
-								.addComponent(lblCusto_2_1))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(inicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(termino, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(14)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblCliente_1)
+									.addGap(46)
+									.addComponent(lblCusto_2)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(inicio, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblCusto_2_1)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(termino, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(seguro)
 								.addComponent(chaveExtra)
 								.addComponent(mobiliado))
 							.addGap(18)
 							.addComponent(lblCusto_1)
-							.addGap(18)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(28)
+							.addGap(34)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(custo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(total, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))

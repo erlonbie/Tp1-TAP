@@ -134,6 +134,18 @@ public class ImovelDAO extends BancoDeDados {
 		 
 	}
 	
+	public void desalugaImovel(String id) {
+		try {
+			Statement st = conexao.createStatement();
+			st.executeUpdate("UPDATE imoveis SET alugado='0' WHERE id="+id);
+		}
+		catch (SQLException e){
+			System.out.println("Falhou no alugaImovel");
+			System.out.println(e.getMessage());
+		}
+		 
+	}
+	
 	public boolean alugado(String id) {
 		String s = "";
 		try {

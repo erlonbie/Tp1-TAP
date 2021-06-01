@@ -20,54 +20,54 @@ public class AluguelDAO extends BancoDeDados {
 		}
 	}
 	
-	public void listarClientes() {
-		try {
-			Statement st = conexao.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM clientes");
-			while(rs.next()) {
-				System.out.println("Id: " + rs.getString(1) + "\n" + "Imovel_id: " + rs.getString(2) + "\n" + "Nome: " + rs.getString(3)+ "\n" + "Idade: " + rs.getString(4) + "\n"+"\n");
-			}
-		}
-		catch (SQLException e) { 
-			System.out.println("Falhou no listarClientes");
-			System.out.println(e.getMessage());
-		}
-	}
-	
-	public String listaApenasUmImovel() {
-		String s = "Imóvel Adicionado: \n";
-		try {
-			Statement st = conexao.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM imoveis WHERE id=(SELECT LAST_INSERT_ID())");
-			while(rs.next()) {
-				s += "Id: " + rs.getString(1) + "\n" + "Categoria: " + rs.getString(2) + "\n" + "Endereço: " + rs.getString(3)+ "\n" + "Area: " + rs.getString(4) + "\n" + "Custo: " + rs.getString(5) + "\n" + "Quartos: " + rs.getString(6) + "\n" + "Suítes: " + rs.getString(7) + "\n" + "Vagas de estacionamento: " + rs.getString(8) + "\n" + "Piscina: " + rs.getString(9) + "\n" + "Churrasqueira: " + rs.getString(10) + "\n" + "Playground: " + rs.getString(11) + "\n" + "Alugado: " + rs.getString(12) +"\n";
-			}
-			return s;
-		}
-		catch (SQLException e) { 
-			System.out.println("Falhou no listaApenasUmImovel");
-			System.out.println(e.getMessage());
-		}
-		return s;
-	}
-	
-	public String retornarImoveis() {
-		String s = "";
-		try {
-			Statement st = conexao.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM imoveis");
-			while(rs.next()) {
-				//s += "Id: " + rs.getString(1) + '\n' + "Categoria: " + rs.getString(2) + "\n" + "Endereço: " + rs.getString(3)+ "\n" + "Area: " + rs.getString(4) + "\n" + "Custo: " + rs.getString(5) + "\n" + "Quartos: " + rs.getString(6) + "\n" + "Suítes: " + rs.getString(7) + "\n" + "Vagas de estacionamento: " + rs.getString(8) + "\n" + "Piscina: " + rs.getString(9) + "\n" + "Churrasqueira: " + rs.getString(10) + "\n" + "Playground: " + rs.getString(11) + "\n" + "Alugado: " + rs.getString(12) +"\n--------------------\n";
-				s += String.format("Id:%43s\nCategoria:%41s\nEndereco:%34s\nArea:%41s\nCusto:%41s\nQuartos:%33s\nSuítes:%36s\nVagas de Estacionamento:%5s\nPiscina:%35s\nChurrasqueira:%24s\nPlayground:%29s\nAlugado:%34s\n---------------------------------------------------------------------------\n", rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12));
-			}
-			return s;
-		}
-		catch (SQLException e) { 
-			System.out.println("Falhou no listaImoveis");
-			System.out.println(e.getMessage());
-		}
-		return null;
-	}
+//	public void listarClientes() {
+//		try {
+//			Statement st = conexao.createStatement();
+//			ResultSet rs = st.executeQuery("SELECT * FROM clientes");
+//			while(rs.next()) {
+//				System.out.println("Id: " + rs.getString(1) + "\n" + "Imovel_id: " + rs.getString(2) + "\n" + "Nome: " + rs.getString(3)+ "\n" + "Idade: " + rs.getString(4) + "\n"+"\n");
+//			}
+//		}
+//		catch (SQLException e) { 
+//			System.out.println("Falhou no listarClientes");
+//			System.out.println(e.getMessage());
+//		}
+//	}
+//	
+//	public String listaApenasUmImovel() {
+//		String s = "Imóvel Adicionado: \n";
+//		try {
+//			Statement st = conexao.createStatement();
+//			ResultSet rs = st.executeQuery("SELECT * FROM imoveis WHERE id=(SELECT LAST_INSERT_ID())");
+//			while(rs.next()) {
+//				s += "Id: " + rs.getString(1) + "\n" + "Categoria: " + rs.getString(2) + "\n" + "Endereço: " + rs.getString(3)+ "\n" + "Area: " + rs.getString(4) + "\n" + "Custo: " + rs.getString(5) + "\n" + "Quartos: " + rs.getString(6) + "\n" + "Suítes: " + rs.getString(7) + "\n" + "Vagas de estacionamento: " + rs.getString(8) + "\n" + "Piscina: " + rs.getString(9) + "\n" + "Churrasqueira: " + rs.getString(10) + "\n" + "Playground: " + rs.getString(11) + "\n" + "Alugado: " + rs.getString(12) +"\n";
+//			}
+//			return s;
+//		}
+//		catch (SQLException e) { 
+//			System.out.println("Falhou no listaApenasUmImovel");
+//			System.out.println(e.getMessage());
+//		}
+//		return s;
+//	}
+//	
+//	public String retornarImoveis() {
+//		String s = "";
+//		try {
+//			Statement st = conexao.createStatement();
+//			ResultSet rs = st.executeQuery("SELECT * FROM imoveis");
+//			while(rs.next()) {
+//				//s += "Id: " + rs.getString(1) + '\n' + "Categoria: " + rs.getString(2) + "\n" + "Endereço: " + rs.getString(3)+ "\n" + "Area: " + rs.getString(4) + "\n" + "Custo: " + rs.getString(5) + "\n" + "Quartos: " + rs.getString(6) + "\n" + "Suítes: " + rs.getString(7) + "\n" + "Vagas de estacionamento: " + rs.getString(8) + "\n" + "Piscina: " + rs.getString(9) + "\n" + "Churrasqueira: " + rs.getString(10) + "\n" + "Playground: " + rs.getString(11) + "\n" + "Alugado: " + rs.getString(12) +"\n--------------------\n";
+//				s += String.format("Id:%43s\nCategoria:%41s\nEndereco:%34s\nArea:%41s\nCusto:%41s\nQuartos:%33s\nSuítes:%36s\nVagas de Estacionamento:%5s\nPiscina:%35s\nChurrasqueira:%24s\nPlayground:%29s\nAlugado:%34s\n---------------------------------------------------------------------------\n", rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11), rs.getString(12));
+//			}
+//			return s;
+//		}
+//		catch (SQLException e) { 
+//			System.out.println("Falhou no listaImoveis");
+//			System.out.println(e.getMessage());
+//		}
+//		return null;
+//	}
 	
 	public void listaComboBox() {
 		try {
@@ -99,16 +99,16 @@ public class AluguelDAO extends BancoDeDados {
 		
 	}
 	
-	public void removeClientes(String id) {
-		try {
-			Statement st = conexao.createStatement();
-			st.executeUpdate("DELETE FROM clientes WHERE id=" + id);
-		}
-		catch (SQLException e){
-			System.out.println("Falhou no removeClientes");
-			System.out.println(e.getMessage());
-		}
-	}
+//	public void removeClientes(String id) {
+//		try {
+//			Statement st = conexao.createStatement();
+//			st.executeUpdate("DELETE FROM clientes WHERE id=" + id);
+//		}
+//		catch (SQLException e){
+//			System.out.println("Falhou no removeClientes");
+//			System.out.println(e.getMessage());
+//		}
+//	}
 	
 	public void atualizaCLiente(String[] imo) {
 		try {
@@ -138,38 +138,52 @@ public class AluguelDAO extends BancoDeDados {
 		return null;
 	}
 	
-	public String textoRelatorio3(String id_cliente) {
-		String s = "";
-		try {
-			Statement st = conexao.createStatement();
-			ResultSet rs3 = st.executeQuery("SELECT * FROM clientes WHERE id="+id_cliente);
-			while(rs3.next()) {
-				s = "Cliente: " + rs3.getString(3)+'\n';
-			}
-		}
-		catch (SQLException e) {
-			System.out.println("Falhou no textoRelatorio3");
-			System.out.println(e.getMessage());
-		}
-		return null;
-	}
+//	public boolean deletaUmAluguel(String id) {
+//		try {
+//			Statement st = conexao.createStatement();
+//			st.executeUpdate();
+//			return true;
+//		}
+//		catch (SQLException e){
+//			System.out.println("Falhou no adicionaAluguel");
+//			System.out.println(e.getMessage());
+//			return false;
+//		}
+//		return false;
+//	}
 	
-	public String textoRelatorio2(String id_imovel) {
-		
-		String s = "";
-		try {
-			Statement st = conexao.createStatement();
-			ResultSet rs2 = st.executeQuery("SELECT * FROM clientes WHERE id="+id_imovel);
-			while(rs2.next()) {
-				s = "Imóvel_ID: " + rs2.getString(1)+", Categoria: "+rs2.getString(2)+'\n'+"Custo: "+rs2.getString(5)+" R$"+'\n';
-			}
-		}
-		catch (SQLException e) {
-			System.out.println("Falhou no textoRelatorio2");
-			System.out.println(e.getMessage());
-		}
-		return null;
-	}
+//	public String textoRelatorio3(String id_cliente) {
+//		String s = "";
+//		try {
+//			Statement st = conexao.createStatement();
+//			ResultSet rs3 = st.executeQuery("SELECT * FROM clientes WHERE id="+id_cliente);
+//			while(rs3.next()) {
+//				s = "Cliente: " + rs3.getString(3)+'\n';
+//			}
+//		}
+//		catch (SQLException e) {
+//			System.out.println("Falhou no textoRelatorio3");
+//			System.out.println(e.getMessage());
+//		}
+//		return null;
+//	}
+//	
+//	public String textoRelatorio2(String id_imovel) {
+//		
+//		String s = "";
+//		try {
+//			Statement st = conexao.createStatement();
+//			ResultSet rs2 = st.executeQuery("SELECT * FROM clientes WHERE id="+id_imovel);
+//			while(rs2.next()) {
+//				s = "Imóvel_ID: " + rs2.getString(1)+", Categoria: "+rs2.getString(2)+'\n'+"Custo: "+rs2.getString(5)+" R$"+'\n';
+//			}
+//		}
+//		catch (SQLException e) {
+//			System.out.println("Falhou no textoRelatorio2");
+//			System.out.println(e.getMessage());
+//		}
+//		return null;
+//	}
 	
 	public String textoRelatorio(String mes, String ano) {
 		String s = "";

@@ -148,15 +148,29 @@ public class ClienteDAO extends BancoDeDados {
 		
 	}
 	
-	public void removeClientes(String id) {
+	public boolean removeCliente(String id) {
 		try {
 			Statement st = conexao.createStatement();
-			st.executeUpdate("DELETE FROM clientes WHERE id=" + id);
+			ResultSet rs = st.executeQuery("SELECT * FROM clientes WHERE id="+id);
+			while(rs.next()) {
+				String imovel_id = rs.getString(2);
+				Statement st2 = conexao.createStatement();
+				ResultSet rs2 = st2.executeQuery("SELECT * FROM alugueis WHERE cliente_imovel="+imovel_id);
+				while(rs2.next()) {
+					String aluguel_id = rs2.getString(1);
+					Statement st3 = conexao.createStatement();
+					ResultSet rs3 = st3.executeQuery("DELETE FROM alugueis WHERE id="+aluguel_id);
+				}
+				Statement st3 = conexao.createStatement();
+				ResultSet rs3 = st3.executeQuery("DELETE FROM clientes WHERE id="+id);
+			}
+			return true;
 		}
-		catch (SQLException e){
-			System.out.println("Falhou no removeClientes");
+		catch (SQLException e) { 
+			System.out.println("Falhou no removeCliente");
 			System.out.println(e.getMessage());
 		}
+		return false;
 	}
 	
 	public void atualizaCLiente(String[] imo) {
