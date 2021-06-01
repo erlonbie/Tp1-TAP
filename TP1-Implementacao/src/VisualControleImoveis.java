@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -40,6 +40,7 @@ public class VisualControleImoveis extends JFrame {
 	private JTextField custo;
 	private JTextField area;
 	private static JComboBox comboBox;
+	private DefaultComboBoxModel dm = new DefaultComboBoxModel();
 	public static ArrayList<String> imoveis = new ArrayList<String>();
 	
 	public JComboBox getComboBox() {
@@ -88,6 +89,7 @@ public class VisualControleImoveis extends JFrame {
 	
 	public static void fillComboBox() {
 		ImovelDAO iDAO = new ImovelDAO();
+		imoveis.clear();
 		iDAO.listaComboBox();
 	}
 	
@@ -293,6 +295,7 @@ public class VisualControleImoveis extends JFrame {
 							textArea.setText(iDAO.listaApenasUmImovel());
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
+							
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
@@ -302,7 +305,18 @@ public class VisualControleImoveis extends JFrame {
 						JOptionPane.showMessageDialog(null, "Selecione um tipo de imóvel!");
 					}
 				}
-				
+//				dispose();
+//				main(null);
+//				contentPane.invalidate();
+//				fillComboBox();
+//				contentPane.revalidate();
+//				contentPane.repaint();
+//				ImovelDAO iDAO = new ImovelDAO ();
+//				String s = iDAO.ultimoImovelAdicionado();
+//				comboBox.addItem(s);
+//				comboBox.invalidate();
+//				comboBox.revalidate();
+//				comboBox.repaint();
 			}
 		});
 		
@@ -329,6 +343,7 @@ public class VisualControleImoveis extends JFrame {
 		});
 		//fillComboBox();
 		comboBox = new JComboBox(imoveis.toArray());
+		//comboBox.setModel(dm);
 		//comboBox.setModel(new DefaultComboBoxModel(imoveis));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

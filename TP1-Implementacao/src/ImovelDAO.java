@@ -164,6 +164,24 @@ public class ImovelDAO extends BancoDeDados {
 		return false;
 	}
 	
+	public String ultimoImovelAdicionado() {
+		String s = "";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM imoveis WHERE id=(SELECT LAST_INSERT_ID())");
+			while(rs.next()) {
+				//i.imoveis.add(rs.getString(1) + "|" + rs.getString(2) + "|" + rs.getString(3)+  "|" + rs.getString(4)  + "|" + rs.getString(5) +  "|" + rs.getString(6) +  "|" + rs.getString(7) +  "|" + rs.getString(8));
+				s = rs.getString(1) + "|" + rs.getString(2) + "|" + rs.getString(3)+  "|" + rs.getString(4)  + "|" + rs.getString(5) +  "|" + rs.getString(6) +  "|" + rs.getString(7) +  "|" + rs.getString(8);
+			}
+			return s;
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no imovelUltimoCliente");
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
 //	public static void main (String args[]) {
 //		ImovelDAO iDAO = new ImovelDAO ();
 //		iDAO.removeImoveis("4");
