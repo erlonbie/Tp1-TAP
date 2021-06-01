@@ -143,7 +143,6 @@ public class ImovelDAO extends BancoDeDados {
 			System.out.println("Falhou no alugaImovel");
 			System.out.println(e.getMessage());
 		}
-		 
 	}
 	
 	public boolean alugado(String id) {

@@ -338,11 +338,15 @@ public class VisualControleClientes extends JFrame {
 						for(int i = fim; s.charAt(i) != '|'; i++) {
 							fim++;	
 						}
-						textArea.setText("Apaguei o id: " + comboBox1.getSelectedItem().toString().substring(0, fim));
+						//textArea.setText("Apaguei o id: " + comboBox1.getSelectedItem().toString().substring(0, fim));
 						s = comboBox1.getSelectedItem().toString().substring(0, fim);
 						System.out.println(s);
 						ClienteDAO cDAO = new ClienteDAO();
+						String id_imovel = cDAO.retornImovelDoCLiente(s);
 						cDAO.removeCliente(s);
+						ImovelDAO iDAO = new ImovelDAO();
+						iDAO.desalugaImovel(id_imovel);
+						
 					}
 				}
 			}

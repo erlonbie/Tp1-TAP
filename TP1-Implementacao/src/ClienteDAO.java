@@ -182,7 +182,23 @@ public class ClienteDAO extends BancoDeDados {
 			System.out.println("Falhou no atualizaImovel");
 			System.out.println(e.getMessage());
 		}
-		 
+	}
+	
+	public String retornImovelDoCLiente(String id) {
+		String s = "";
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM clientes WHERE id="+id);
+			while(rs.next()) {
+				s = rs.getString(2);
+			}
+			return s;
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no retornImovelDoCLiente");
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 	
 //	public static void main (String args[]) {
