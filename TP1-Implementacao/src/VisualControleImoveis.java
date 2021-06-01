@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
@@ -39,9 +40,10 @@ public class VisualControleImoveis extends JFrame {
 	private JTextField endereco;
 	private JTextField custo;
 	private JTextField area;
-	private static JComboBox comboBox;
+	public JComboBox comboBox;
 	private DefaultComboBoxModel dm = new DefaultComboBoxModel();
 	public static ArrayList<String> imoveis = new ArrayList<String>();
+	//Thread thread;
 	
 	public JComboBox getComboBox() {
 		return comboBox;
@@ -102,7 +104,7 @@ public class VisualControleImoveis extends JFrame {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
-				}
+				}	
 			}
 		});
 	}
@@ -121,7 +123,6 @@ public class VisualControleImoveis extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
 		
 		
 		endereco = new JTextField();
@@ -244,6 +245,8 @@ public class VisualControleImoveis extends JFrame {
 							textArea.setText(iDAO.listaApenasUmImovel());
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
+							dispose();
+							main(null);
 						}
 					}
 					else if(casaPadrao.isSelected()) {
@@ -259,6 +262,8 @@ public class VisualControleImoveis extends JFrame {
 							textArea.setText(iDAO.listaApenasUmImovel());
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
+							dispose();
+							main(null);
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
@@ -277,6 +282,8 @@ public class VisualControleImoveis extends JFrame {
 							textArea.setText(iDAO.listaApenasUmImovel());
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
+							dispose();
+							main(null);
 						}
 						else {
 							JOptionPane.showMessageDialog(null, "Numero de quartos não pode ser menor que o de suítes!");
@@ -288,13 +295,15 @@ public class VisualControleImoveis extends JFrame {
 							//Imovel i = new Imovel("Kitchenette", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 0, 0, 0, 0);
 							Imovel i = new Imovel("Apartamento", endereco.getText() , Double.parseDouble(area.getText()), Double.parseDouble(custo.getText()), Integer.parseInt(quartos.getValue().toString()), Integer.parseInt(suites.getValue().toString()), Integer.parseInt(vagasEstacionamento.getValue().toString()), 1, 0, 1, 0);
 							iDAO.adicionaImoveis(i);
-							JOptionPane.showMessageDialog(null, "Apartamento adicionado");
+							textArea.setText(iDAO.listaApenasUmImovel());
 							endereco.setText("");
 							custo.setText("");
 							area.setText("");
-							textArea.setText(iDAO.listaApenasUmImovel());
+							JOptionPane.showMessageDialog(null, "Apartamento adicionado");
 							//kitchenette.setSelected(false);
 							//textArea.setText(iDAO.retornarImoveis());
+							dispose();
+							main(null);
 							
 						}
 						else {
@@ -317,6 +326,22 @@ public class VisualControleImoveis extends JFrame {
 //				comboBox.invalidate();
 //				comboBox.revalidate();
 //				comboBox.repaint();
+//				comboBox.invalidate();
+//				comboBox = new JComboBox();
+//				comboBox.setModel(new DefaultComboBoxModel(imoveis.toArray()));
+//				comboBox.removeAllItems();
+//				fillComboBox();
+//				comboBox = new JComboBox(imoveis.toArray());
+//				ImovelDAO iDAO = new ImovelDAO();
+//				imoveis.clear();
+//				iDAO.listaComboBox();
+//				fillComboBox();
+//				comboBox = new JComboBox();
+				//comboBox.setModel(dm);
+//				comboBox.setModel(new DefaultComboBoxModel(imoveis.toArray()));
+//				VisualControleImoveis novo = new VisualControleImoveis();
+//				Thread t = new Thread(novo);
+//				t.start();
 			}
 		});
 		
@@ -325,7 +350,7 @@ public class VisualControleImoveis extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int fim = 1;
 				String s = comboBox.getSelectedItem().toString();
-				for(int i = fim; s.charAt(i+1) != '-'; i++) {
+				for(int i = fim; s.charAt(i) != '|'; i++) {
 					fim++;	
 				}
 				textArea.setText("Apaguei o id: " + comboBox.getSelectedItem().toString().substring(0, fim));
@@ -333,7 +358,10 @@ public class VisualControleImoveis extends JFrame {
 				ImovelDAO iDAO = new ImovelDAO ();
 				iDAO.removeImoveis(s);
 				JOptionPane.showMessageDialog(null, "Imóvel removido com sucesso");
+				dispose();
+				main(null);
 			}
+			
 		});
 		
 		JToggleButton btnEditar = new JToggleButton("Editar");
@@ -342,9 +370,9 @@ public class VisualControleImoveis extends JFrame {
 			}
 		});
 		//fillComboBox();
-		comboBox = new JComboBox(imoveis.toArray());
+		comboBox = new JComboBox();
 		//comboBox.setModel(dm);
-		//comboBox.setModel(new DefaultComboBoxModel(imoveis));
+		comboBox.setModel(new DefaultComboBoxModel(imoveis.toArray()));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(btnEditar.isSelected() == true) {
@@ -375,6 +403,9 @@ public class VisualControleImoveis extends JFrame {
 				    	endereco.setText(vs[2]);
 						custo.setText(vs[4]);
 						area.setText(vs[3]);
+						quartos.setEnabled(true);
+						suites.setEnabled(true);
+						vagasEstacionamento.setEnabled(true);
 						casaPadrao.setSelected(true);
 						quartos.setValue(Integer.parseInt(vs[5]));
 						suites.setValue(Integer.parseInt(vs[6]));
@@ -385,6 +416,9 @@ public class VisualControleImoveis extends JFrame {
 				    	endereco.setText(vs[2]);
 						custo.setText(vs[4]);
 						area.setText(vs[3]);
+						quartos.setEnabled(true);
+						suites.setEnabled(true);
+						vagasEstacionamento.setEnabled(true);
 						casaCondominio.setSelected(true);
 						quartos.setValue(Integer.parseInt(vs[5]));
 						suites.setValue(Integer.parseInt(vs[6]));
@@ -394,6 +428,9 @@ public class VisualControleImoveis extends JFrame {
 				    	endereco.setText(vs[2]);
 						custo.setText(vs[4]);
 						area.setText(vs[3]);
+						quartos.setEnabled(true);
+						suites.setEnabled(true);
+						vagasEstacionamento.setEnabled(true);
 						apartamento.setSelected(true);
 						quartos.setValue(Integer.parseInt(vs[5]));
 						suites.setValue(Integer.parseInt(vs[6]));
@@ -440,6 +477,8 @@ public class VisualControleImoveis extends JFrame {
 				    ImovelDAO iDAO = new ImovelDAO ();
 				    iDAO.atualizaImovel(vs);
 				    JOptionPane.showMessageDialog(null, "Imóvel atualizado");
+				    dispose();
+					main(null);
 				}
 			}
 		});
@@ -572,4 +611,10 @@ public class VisualControleImoveis extends JFrame {
 		
 		
 	}
+
+//	@Override
+//	public void run() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }

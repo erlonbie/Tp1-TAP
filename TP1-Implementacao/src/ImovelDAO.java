@@ -1,9 +1,12 @@
 import java.sql.*;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
+
 public class ImovelDAO extends BancoDeDados {
 	
 	VisualControleImoveis i = new VisualControleImoveis();
+	
 	
 	public boolean adicionaImoveis(Imovel i) {
 		try {
@@ -67,19 +70,29 @@ public class ImovelDAO extends BancoDeDados {
 		return null;
 	}
 	
-	public void listaComboBox() {
+	public DefaultComboBoxModel listaComboBox() {
+		
+		DefaultComboBoxModel dm = new DefaultComboBoxModel();
 		try {
 			Statement st = conexao.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM imoveis");
 			while(rs.next()) {
 				i.imoveis.add(rs.getString(1) + "|" + rs.getString(2) + "|" + rs.getString(3)+  "|" + rs.getString(4)  + "|" + rs.getString(5) +  "|" + rs.getString(6) +  "|" + rs.getString(7) +  "|" + rs.getString(8));
+				dm.addElement(rs.getString(1) + "|" + rs.getString(2) + "|" + rs.getString(3)+  "|" + rs.getString(4)  + "|" + rs.getString(5) +  "|" + rs.getString(6) +  "|" + rs.getString(7) +  "|" + rs.getString(8));
+				//i.comboBox.addItem(rs.getString(1) + "|" + rs.getString(2) + "|" + rs.getString(3)+  "|" + rs.getString(4)  + "|" + rs.getString(5) +  "|" + rs.getString(6) +  "|" + rs.getString(7) +  "|" + rs.getString(8));
 			}
+			return dm;
 		}
 		catch (SQLException e) { 
 			System.out.println("Falhou no listaImoveis");
 			System.out.println(e.getMessage());
 		}
+		return null;
+	}
+	
+	public boolean atualizaComboBox(String id, String value) {
 		
+		return false;
 	}
 	
 	public void removeImoveis(String id) {
