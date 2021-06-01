@@ -1,18 +1,20 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ClienteDAO extends BancoDeDados {
+public class AluguelDAO extends BancoDeDados {
 	
 	VisualControleClientes i = new VisualControleClientes();
+	java.util.Date dt = new java.util.Date();
+    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	
-	public boolean adicionaCliente(Cliente i) {
+	public boolean adicionaAluguel(Aluguel i) {
 		try {
 			Statement st = conexao.createStatement();
-			st.executeUpdate("INSERT INTO clientes VALUES (NULL, '" + i.getImovel_id() + "', '"+ i.getNome() + "', '" + i.getIdade() +"' )");
+			st.executeUpdate("INSERT INTO alugueis VALUES (NULL, '" + i.getCliente_id() + "', '"+ i.getClinte_imovel() + "', '" + sdf.format(i.getInicio()) +"', '" + sdf.format(i.getInicio()) + "', '" +i.getSeguro() +"', '"+i.getChaveExtra()+"', '"+i.getMobiliado()+ "', '" + (i.getSeguro()+i.getChaveExtra()+i.getMobiliado()) + "')");
 			return true;
 		}
 		catch (SQLException e){
-			System.out.println("Falhou no adicionaCliente");
+			System.out.println("Falhou no adicionaAluguel");
 			System.out.println(e.getMessage());
 			return false;
 		}
@@ -47,40 +49,6 @@ public class ClienteDAO extends BancoDeDados {
 			System.out.println(e.getMessage());
 		}
 		return s;
-	}
-	
-	public int idUltimoCliente() {
-		int id = 0;
-		try {
-			Statement st = conexao.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM clientes WHERE id=(SELECT LAST_INSERT_ID())");
-			while(rs.next()) {
-				id = Integer.parseInt(rs.getString(1));
-			}
-			return id;
-		}
-		catch (SQLException e) { 
-			System.out.println("Falhou no idUltimoCliente");
-			System.out.println(e.getMessage());
-		}
-		return id;
-	}
-	
-	public int imovelUltimoCliente() {
-		int id = 0;
-		try {
-			Statement st = conexao.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM clientes WHERE id=(SELECT LAST_INSERT_ID())");
-			while(rs.next()) {
-				id = Integer.parseInt(rs.getString(2));
-			}
-			return id;
-		}
-		catch (SQLException e) { 
-			System.out.println("Falhou no imovelUltimoCliente");
-			System.out.println(e.getMessage());
-		}
-		return id;
 	}
 	
 	public String retornarImoveis() {

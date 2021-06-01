@@ -5,7 +5,9 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -31,6 +33,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JYearChooser;
+import com.toedter.calendar.JMonthChooser;
 
 public class VisualControleClientes extends JFrame {
 
@@ -160,8 +164,8 @@ public class VisualControleClientes extends JFrame {
 		seguro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(seguro.isSelected()) {
-					seguroV = Double.parseDouble(custo.getText()) * 1.1;
-					double tot =  seguroV +chaveExtraV +mobiliadoV;
+					seguroV = Double.parseDouble(custo.getText()) * 0.1;
+					double tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
 					total.setText(dec.format(tot));
 				}
 				else {
@@ -192,8 +196,8 @@ public class VisualControleClientes extends JFrame {
 		mobiliado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(mobiliado.isSelected()) {
-					mobiliadoV = Double.parseDouble(custo.getText()) * 1.3;
-					double tot = seguroV +chaveExtraV +mobiliadoV;
+					mobiliadoV = Double.parseDouble(custo.getText()) * 0.3;
+					double tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
 					total.setText(dec.format(tot));
 				}
 				else {
@@ -216,6 +220,7 @@ public class VisualControleClientes extends JFrame {
 		
 		JDateChooser inicio = new JDateChooser();
 		inicio.setDateFormatString("yyyy-MM-dd");
+		
 		
 		JDateChooser termino = new JDateChooser();
 		termino.setDateFormatString("yyyy-MM-dd");
@@ -242,6 +247,10 @@ public class VisualControleClientes extends JFrame {
 		JLabel lblCliente = new JLabel("CLIENTE");
 		
 		JLabel lblCliente_1 = new JLabel("ALUGUEL");
+		
+		JYearChooser ano = new JYearChooser();
+		
+		JMonthChooser mes = new JMonthChooser();
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -292,6 +301,15 @@ public class VisualControleClientes extends JFrame {
 						Cliente c = new Cliente(Integer.parseInt(s1), nome.getText(), Integer.parseInt(idade.getText()));
 						ClienteDAO cDAO = new ClienteDAO();
 						cDAO.adicionaCliente(c);
+						
+						//DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+						System.out.println(cDAO.idUltimoCliente());
+						System.out.println(cDAO.imovelUltimoCliente());
+						Aluguel a = new Aluguel(cDAO.idUltimoCliente(), cDAO.imovelUltimoCliente(), inicio.getDate(), termino.getDate(), seguroV, chaveExtraV, mobiliadoV);
+						AluguelDAO aDAO = new AluguelDAO();
+						aDAO.adicionaAluguel(a);
+						
+						
 						iDAO.alugaImovel();
 						JOptionPane.showMessageDialog(null, "Parabéns pela aquisição!");
 					}
@@ -455,7 +473,10 @@ public class VisualControleClientes extends JFrame {
 					.addGap(208))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(33)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 651, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(mes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(ano, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 651, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(806, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -513,7 +534,11 @@ public class VisualControleClientes extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel)
 								.addComponent(lblNewLabel_1))
-							.addGap(187)))
+							.addGap(122)
+							.addComponent(ano, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(mes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(15)))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblComandos)
 						.addComponent(lblId))
