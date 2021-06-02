@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,8 @@ import javax.swing.JSeparator;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JYearChooser;
 import com.toedter.calendar.JMonthChooser;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class VisualControleClientes extends JFrame {
 
@@ -48,7 +51,8 @@ public class VisualControleClientes extends JFrame {
 	private JTextField nome;
 	private JTextField idade;
 	private static JComboBox comboBox;
-	private static JComboBox comboBox1;
+	private  JComboBox comboBox1;
+	private JComboBox comboBox_1;
 	public static ArrayList<String> imoveis1 = new ArrayList<String>();
 	public static ArrayList<String> clientes = new ArrayList<String>();
 	private JTextField custo;
@@ -56,6 +60,7 @@ public class VisualControleClientes extends JFrame {
 	private double seguroV = 0.0;
 	private double chaveExtraV = 0.0;
 	private double mobiliadoV = 0.0;
+	private double tot;
 	private DecimalFormat dec = new DecimalFormat("#0.00");
 	
 	public JComboBox getComboBox() {
@@ -100,6 +105,15 @@ public class VisualControleClientes extends JFrame {
 	        return false;
 	    }
 	    return true;
+	}
+	
+	public void mudaCombo(JComboBox comb, String s, int fim) {
+		for(int i = 0; i < comb.getItemCount(); i++) {
+			if( comb.getItemAt(i).toString().substring(0, fim).equals(s) ) {
+				comb.setSelectedIndex(i);
+				break;
+			}
+		}
 	}
 	
 	public static void fillComboBox() {
@@ -162,18 +176,23 @@ public class VisualControleClientes extends JFrame {
 		
 		JLabel lblCusto_1 = new JLabel("Selecione o imóvel:");
 		
+		comboBox1 = new JComboBox(clientes.toArray());
+		comboBox1.setSelectedItem(null);
+		
+		comboBox_1 = new JComboBox(imoveis1.toArray());
+		
 		JCheckBox seguro = new JCheckBox("Seguro");
 		seguro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(comboBox.getSelectedItem() != null) {
+				if(comboBox_1.getSelectedItem() != null) {
 					if(seguro.isSelected()) {
 						seguroV = Double.parseDouble(custo.getText()) * 0.1;
-						double tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
+						tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
 						total.setText(dec.format(tot));
 					}
 					else {
 						seguroV = 0;
-						double tot = Double.parseDouble(custo.getText()) +chaveExtraV +mobiliadoV;
+						tot = Double.parseDouble(custo.getText()) +chaveExtraV +mobiliadoV;
 						total.setText(dec.format(tot));
 					}
 				}
@@ -183,15 +202,15 @@ public class VisualControleClientes extends JFrame {
 		JCheckBox chaveExtra = new JCheckBox("Chave extra");
 		chaveExtra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(comboBox.getSelectedItem() != null) {
+				if(comboBox_1.getSelectedItem() != null) {
 					if(chaveExtra.isSelected()) {
 						chaveExtraV = 200;
-						double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV +mobiliadoV;
+						tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV +mobiliadoV;
 						total.setText(dec.format(tot));
 					}
 					else {
 						chaveExtraV = 0;
-						double tot = Double.parseDouble(custo.getText()) +seguroV +mobiliadoV;
+						tot = Double.parseDouble(custo.getText()) +seguroV +mobiliadoV;
 						total.setText(dec.format(tot));
 					}
 				}
@@ -201,15 +220,15 @@ public class VisualControleClientes extends JFrame {
 		JCheckBox mobiliado = new JCheckBox("Mobiliado");
 		mobiliado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(comboBox.getSelectedItem() != null) {
+				if(comboBox_1.getSelectedItem() != null) {
 					if(mobiliado.isSelected()) {
 						mobiliadoV = Double.parseDouble(custo.getText()) * 0.3;
-						double tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
+						tot = Double.parseDouble(custo.getText()) + seguroV +chaveExtraV +mobiliadoV;
 						total.setText(dec.format(tot));
 					}
 					else {
 						mobiliadoV = 0;
-						double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV;
+						tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV;
 						total.setText(dec.format(tot));
 					}
 				}
@@ -237,14 +256,14 @@ public class VisualControleClientes extends JFrame {
 		
 		custo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					
-				
 			}
 		});
 		custo.setColumns(10);
+		custo.setEditable(false);
 		
 		total = new JTextField();
 		total.setColumns(10);
+		total.setEditable(false);
 		
 		JLabel lblNewLabel = new JLabel("Custo");
 		
@@ -276,6 +295,9 @@ public class VisualControleClientes extends JFrame {
 				AluguelDAO a = new AluguelDAO();
 				String texto = a.textoRelatorio(String.valueOf(mesV), String.valueOf(anoV));
 				textArea.setText(texto);
+				//comboBox.setSelectedIndex(0);
+//				custo.setText("");
+//				total.setText("");
 			}
 		});
 		
@@ -299,7 +321,7 @@ public class VisualControleClientes extends JFrame {
 						JOptionPane.showMessageDialog(null, "preencha as datas");
 					}
 					int fim = 1;
-					String s1 = comboBox.getSelectedItem().toString();
+					String s1 = comboBox_1.getSelectedItem().toString();
 					for(int i = fim; s1.charAt(i) != '|'; i++) {
 						fim++;	
 					}
@@ -335,7 +357,7 @@ public class VisualControleClientes extends JFrame {
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(comboBox1.getSelectedItem() == null) {
-					JOptionPane.showConfirmDialog(null, "Não tá selecionado");					
+					JOptionPane.showConfirmDialog(null, "Selecione um cliente para remover");					
 				}
 				else {
 					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover?"+'\n'+"!Deletar um cliente acarretará em remover um aluguel!");
@@ -359,61 +381,136 @@ public class VisualControleClientes extends JFrame {
 				}
 			}
 		});
-		
-		JToggleButton btnEditar = new JToggleButton("Editar");
+		JButton btnSobreOsImveis = new JButton("Confirmar");
+		JCheckBox btnEditar = new JCheckBox("Editar");
 		btnEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
+				if(btnEditar.isSelected()) {
+					btnRemover.setEnabled(false);
+					btnAdicionar.setEnabled(false);
+					btnRelatrio.setEnabled(false);
+					btnSobreOsImveis.setEnabled(true);
+				}
+				else {
+					btnRemover.setEnabled(true);
+					btnAdicionar.setEnabled(true);
+					btnRelatrio.setEnabled(true);
+					btnSobreOsImveis.setEnabled(false);
+				}
 			}
 		});
 		
 		comboBox = new JComboBox(imoveis1.toArray());
-		comboBox.setSelectedItem(null);
+		comboBox.setVisible(false);
+		//comboBox.setSelectedItem(null);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				seguro.setSelected(false);
-				chaveExtra.setSelected(false);
-				mobiliado.setSelected(false);
-				{
 				int fim = 1;
 				String s1 = comboBox.getSelectedItem().toString();
 				for(int i = fim; s1.charAt(i) != '|'; i++) {
 					fim++;	
 				}
 				s1 = s1.substring(0, fim);
-				//System.out.println(s1);
+				System.out.println(s1);
 				ImovelDAO iDAO = new ImovelDAO ();
 				String s2 = iDAO.retornaCusto(s1);
+				System.out.println(s2);
 				custo.setText(s2);
-				}
-				
-				{
-					double tot = Double.parseDouble(custo.getText()) +seguroV +chaveExtraV +mobiliadoV;
-					total.setText(String.valueOf(tot));
-				}
+				seguro.setSelected(false);
+				chaveExtra.setSelected(false);
+				mobiliado.setSelected(false);
+				seguroV = 0;
+				chaveExtraV = 0;
+				mobiliadoV = 0;
+				tot = Double.parseDouble(custo.getText());
+				total.setText(String.valueOf(dec.format(tot)));
 			}
 		});
 		
-		comboBox1 = new JComboBox(clientes.toArray());
-		//comboBox1.setSelectedItem(null);
-		JButton btnSobreOsImveis = new JButton("Confirmar");
-		btnSobreOsImveis.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(btnEditar.isSelected() == true) {
-					String[] vs = new String[8];
+		
+		comboBox1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(btnEditar.isSelected()) {
+					String[] vs = new String[4];
 				    Arrays.fill(vs, "");
 				    String s = comboBox1.getSelectedItem().toString();
 				    int x =0;
-				    for(int i = 0; i < 1; i++) {
+				    for(int i = 0; i < 4; i++) {
 				    	while(x < s.length() && s.charAt(x) != '|') {
 				    		vs[i] += s.charAt(x);
 				    		x++;
 				    	}
 				    	x++;
 				    }
-				    ImovelDAO iDAO = new ImovelDAO ();
-				    iDAO.atualizaImovel(vs);
-				    JOptionPane.showMessageDialog(null, "Imóvel atualizado");
+				    nome.setText(vs[2]);
+				    idade.setText(vs[3]);
+//				    int fim = vs[1].length();
+//				    mudaCombo(comboBox, vs[1], fim);
+//				    String[] vs1 = new String[2];
+//				    AluguelDAO aDAO = new AluguelDAO();
+//				    vs1 = aDAO.retornaDatas(vs[1]);
+//				    try {
+//						java.util.Date ini = new SimpleDateFormat("yyyy-MM-dd").parse(vs1[0]);
+//						java.util.Date ter = new SimpleDateFormat("yyyy-MM-dd").parse(vs1[1]);
+//						inicio.setDate(ini);
+//						termino.setDate(ter);
+//					} catch (ParseException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
+			}
+		});
+		//comboBox1.setSelectedItem(null);
+		
+		btnSobreOsImveis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(btnEditar.isSelected() == true) {
+					String[] vs = new String[4];
+				    Arrays.fill(vs, "");
+				    String s = comboBox1.getSelectedItem().toString();
+				    int x =0;
+				    for(int i = 0; i < 4; i++) {
+				    	while(x < s.length() && s.charAt(x) != '|') {
+				    		vs[i] += s.charAt(x);
+				    		x++;
+				    	}
+				    	x++;
+				    }
+				    vs[2] = nome.getText();
+				    vs[3] = idade.getText();
+				    ClienteDAO cDAO = new ClienteDAO();
+				    cDAO.atualizaCLiente(vs);
+				    textArea.setText("Dados do cliente atualizados!");
+				    JOptionPane.showMessageDialog(null, "Atualizado!");
+				    dispose();
+					main(null);
+				}
+			}
+		});
+		
+		
+		comboBox_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int fim = 1;
+				String s1 = comboBox_1.getSelectedItem().toString();
+				for(int i = fim; s1.charAt(i) != '|'; i++) {
+					fim++;	
+				}
+				s1 = s1.substring(0, fim);
+				System.out.println(s1);
+				ImovelDAO iDAO = new ImovelDAO ();
+				String s2 = iDAO.retornaCusto(s1);
+				System.out.println(s2);
+				custo.setText(s2);
+				seguro.setSelected(false);
+				chaveExtra.setSelected(false);
+				mobiliado.setSelected(false);
+				seguroV = 0;
+				chaveExtraV = 0;
+				mobiliadoV = 0;
+				tot = Double.parseDouble(custo.getText());
+				total.setText(String.valueOf(dec.format(tot)));
 			}
 		});
 		
@@ -443,7 +540,7 @@ public class VisualControleClientes extends JFrame {
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(comboBox1, 0, 919, Short.MAX_VALUE)
+									.addComponent(comboBox1, 0, 908, Short.MAX_VALUE)
 									.addGap(18)
 									.addComponent(btnSobreOsImveis))
 								.addComponent(lblId)))
@@ -451,20 +548,20 @@ public class VisualControleClientes extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(49)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 717, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(comboBox, 0, 717, Short.MAX_VALUE)
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 												.addComponent(inicio, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
 												.addComponent(custo, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblNewLabel)
 												.addGroup(gl_contentPane.createSequentialGroup()
 													.addComponent(seguro)
 													.addGap(18)
 													.addComponent(chaveExtra)
 													.addGap(18)
 													.addComponent(mobiliado))
-												.addComponent(lblCusto_2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
+												.addComponent(lblCusto_2, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblCusto_1, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE))
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 												.addComponent(lblCusto_2_1, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
 												.addComponent(termino, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)
@@ -472,9 +569,9 @@ public class VisualControleClientes extends JFrame {
 													.addGap(7)
 													.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 														.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-														.addComponent(total, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE))))
-											.addGap(295))
-										.addComponent(lblCusto_1, GroupLayout.PREFERRED_SIZE, 155, GroupLayout.PREFERRED_SIZE)))
+														.addComponent(total, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))))
+										.addComponent(comboBox_1, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblNewLabel)))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(41)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -487,7 +584,7 @@ public class VisualControleClientes extends JFrame {
 												.addComponent(nome, GroupLayout.PREFERRED_SIZE, 409, GroupLayout.PREFERRED_SIZE)
 												.addComponent(idade, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 										.addComponent(lblCliente))))
-							.addGap(153)
+							.addGap(214)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblEndereo_1_1_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblEndereo_1_1, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
@@ -501,7 +598,7 @@ public class VisualControleClientes extends JFrame {
 						.addComponent(mes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(ano, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 651, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(992, Short.MAX_VALUE))
+					.addContainerGap(981, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -549,19 +646,21 @@ public class VisualControleClientes extends JFrame {
 								.addComponent(seguro)
 								.addComponent(chaveExtra)
 								.addComponent(mobiliado))
-							.addGap(18)
-							.addComponent(lblCusto_1)
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGap(39)
 							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(34)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(custo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(total, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGap(7)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNewLabel)
 								.addComponent(lblNewLabel_1))
-							.addGap(122)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(custo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(total, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(30)
+							.addComponent(lblCusto_1)
+							.addGap(18)
+							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(56)
 							.addComponent(ano, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(mes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)

@@ -28,6 +28,9 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.JCheckBox;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class VisualControleImoveis extends JFrame {
 
@@ -368,10 +371,22 @@ public class VisualControleImoveis extends JFrame {
 			}
 			
 		});
-		
-		JToggleButton btnEditar = new JToggleButton("Editar");
-		btnEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JButton btnSobreOsImveis = new JButton("Confirmar");
+		JCheckBox btnEditar = new JCheckBox("Editar");
+		btnEditar.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if(btnEditar.isSelected()) {
+					btnRemover.setEnabled(false);
+					btnAdicionar.setEnabled(false);
+					btnRelatrio.setEnabled(false);
+					btnSobreOsImveis.setEnabled(true);
+				}
+				else {
+					btnRemover.setEnabled(true);
+					btnAdicionar.setEnabled(true);
+					btnRelatrio.setEnabled(true);
+					btnSobreOsImveis.setEnabled(false);
+				}
 			}
 		});
 		//fillComboBox();
@@ -446,7 +461,7 @@ public class VisualControleImoveis extends JFrame {
 			}
 		});
 		
-		JButton btnSobreOsImveis = new JButton("Confirmar");
+		
 		btnSobreOsImveis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(btnEditar.isSelected() == true) {

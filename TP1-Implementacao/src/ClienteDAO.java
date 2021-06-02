@@ -179,7 +179,7 @@ public class ClienteDAO extends BancoDeDados {
 			st.executeUpdate("UPDATE clientes SET nome='"+imo[2]+"', idade='"+imo[3]+"' WHERE id=" + imo[0]);
 		}
 		catch (SQLException e){
-			System.out.println("Falhou no atualizaImovel");
+			System.out.println("Falhou no atualizaCLiente");
 			System.out.println(e.getMessage());
 		}
 	}

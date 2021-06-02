@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class AluguelDAO extends BancoDeDados {
@@ -6,6 +7,7 @@ public class AluguelDAO extends BancoDeDados {
 	VisualControleClientes i = new VisualControleClientes();
 	java.util.Date dt = new java.util.Date();
     java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+    private DecimalFormat dec = new DecimalFormat("#0.00");
 	
 	public boolean adicionaAluguel(Aluguel i) {
 		try {
@@ -138,6 +140,24 @@ public class AluguelDAO extends BancoDeDados {
 		return null;
 	}
 	
+	public String[] retornaDatas(String id) {
+		String[] s = new String[2];
+		try {
+			Statement st = conexao.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM alugueis WHERE cliente_imovel="+id);
+			while(rs.next()) {
+				s[0] = rs.getString(4);
+				s[1] = rs.getString(5);
+			}
+			return s;
+		}
+		catch (SQLException e) { 
+			System.out.println("Falhou no retornaDatas");
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
 //	public boolean deletaUmAluguel(String id) {
 //		try {
 //			Statement st = conexao.createStatement();
@@ -209,7 +229,9 @@ public class AluguelDAO extends BancoDeDados {
 					total = Double.parseDouble(rs2.getString(5));
 				}
 				total += Double.parseDouble(rs.getString(9));
-				s += "No mês "+mes+" de "+ano+":"+'\n'+"    "+"Seguro: "+rs.getString(6)+" R$"+'\n'+"    "+"Chave-extra: "+rs.getString(7)+" R$"+'\n'+"    "+"Mobília: "+rs.getString(8)+" R$"+'\n'+"    "+"Subtotal: "+rs.getString(9)+" R$"+'\n'+ "Total(Subtotal + custo): "+String.valueOf(total) + " R$" +'\n' +'\n';
+				double seg = Double.parseDouble(rs.getString(6));
+				double mob = Double.parseDouble(rs.getString(8));
+				s += "No mês "+mes+" de "+ano+":"+'\n'+"    "+"Seguro: "+dec.format(seg)+" R$"+'\n'+"    "+"Chave-extra: "+rs.getString(7)+" R$"+'\n'+"    "+"Mobília: "+dec.format(mob)+" R$"+'\n'+"    "+"Subtotal: "+rs.getString(9)+" R$"+'\n'+ "Total(Subtotal + custo): "+String.valueOf(total) + " R$" +'\n' +'\n';
 			}
 			if(s.length() > 0) {
 				return s;				
