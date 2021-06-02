@@ -369,7 +369,7 @@ public class VisualControleClientes extends JFrame {
 						}
 						//textArea.setText("Apaguei o id: " + comboBox1.getSelectedItem().toString().substring(0, fim));
 						s = comboBox1.getSelectedItem().toString().substring(0, fim);
-						System.out.println(s);
+						//System.out.println(s);
 						ClienteDAO cDAO = new ClienteDAO();
 						String id_imovel = cDAO.retornImovelDoCLiente(s);
 						cDAO.removeCliente(s);
@@ -411,10 +411,10 @@ public class VisualControleClientes extends JFrame {
 					fim++;	
 				}
 				s1 = s1.substring(0, fim);
-				System.out.println(s1);
+				//System.out.println(s1);
 				ImovelDAO iDAO = new ImovelDAO ();
 				String s2 = iDAO.retornaCusto(s1);
-				System.out.println(s2);
+				//System.out.println(s2);
 				custo.setText(s2);
 				seguro.setSelected(false);
 				chaveExtra.setSelected(false);
@@ -514,6 +514,8 @@ public class VisualControleClientes extends JFrame {
 			}
 		});
 		
+		JLabel lblNewLabel_2 = new JLabel("id | categoria | endereço | area (m2) | custo (R$) | quartos | suites | estacionamento | Disponibilidade");
+		
 		
 		
 		
@@ -540,7 +542,7 @@ public class VisualControleClientes extends JFrame {
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(comboBox1, 0, 908, Short.MAX_VALUE)
+									.addComponent(comboBox1, 0, 917, Short.MAX_VALUE)
 									.addGap(18)
 									.addComponent(btnSobreOsImveis))
 								.addComponent(lblId)))
@@ -571,7 +573,8 @@ public class VisualControleClientes extends JFrame {
 														.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
 														.addComponent(total, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)))))
 										.addComponent(comboBox_1, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblNewLabel)))
+										.addComponent(lblNewLabel)
+										.addComponent(lblNewLabel_2)))
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(41)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -660,7 +663,9 @@ public class VisualControleClientes extends JFrame {
 							.addComponent(lblCusto_1)
 							.addGap(18)
 							.addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(56)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblNewLabel_2)
+							.addGap(35)
 							.addComponent(ano, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(mes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
