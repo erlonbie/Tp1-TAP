@@ -151,7 +151,7 @@ public class VisualControleClientes extends JFrame {
 	
 	
 	public VisualControleClientes() {
-		setTitle("Imóveis");
+		setTitle("Clientes e Aluguéis");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(200, 200, 1500, 700);
 		contentPane = new JPanel();
