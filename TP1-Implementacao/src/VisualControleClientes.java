@@ -104,11 +104,13 @@ public class VisualControleClientes extends JFrame {
 	
 	public static void fillComboBox() {
 		ClienteDAO cDAO = new ClienteDAO();
+		imoveis1.clear();
 		cDAO.listaComboBox();
 	}
 	
 	public static void fillComboBox2() {
 		ClienteDAO cDAO = new ClienteDAO();
+		clientes.clear();
 		cDAO.listaComboBox2();
 	}
 	
@@ -321,6 +323,8 @@ public class VisualControleClientes extends JFrame {
 						
 						iDAO.alugaImovel(String.valueOf(ult_imovel));
 						JOptionPane.showMessageDialog(null, "Parabéns pela aquisição!");
+						dispose();
+						main(null);
 					}
 					
 				}
@@ -330,7 +334,10 @@ public class VisualControleClientes extends JFrame {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(comboBox1.getSelectedItem() != null) {
+				if(comboBox1.getSelectedItem() == null) {
+					JOptionPane.showConfirmDialog(null, "Não tá selecionado");					
+				}
+				else {
 					int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover?"+'\n'+"!Deletar um cliente acarretará em remover um aluguel!");
 					if(confirm == 0) {
 						int fim = 1;
@@ -346,7 +353,8 @@ public class VisualControleClientes extends JFrame {
 						cDAO.removeCliente(s);
 						ImovelDAO iDAO = new ImovelDAO();
 						iDAO.desalugaImovel(id_imovel);
-						
+						dispose();
+						main(null);
 					}
 				}
 			}
@@ -386,7 +394,7 @@ public class VisualControleClientes extends JFrame {
 		});
 		
 		comboBox1 = new JComboBox(clientes.toArray());
-		comboBox1.setSelectedItem(null);
+		//comboBox1.setSelectedItem(null);
 		JButton btnSobreOsImveis = new JButton("Confirmar");
 		btnSobreOsImveis.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

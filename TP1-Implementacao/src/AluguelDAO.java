@@ -10,7 +10,7 @@ public class AluguelDAO extends BancoDeDados {
 	public boolean adicionaAluguel(Aluguel i) {
 		try {
 			Statement st = conexao.createStatement();
-			st.executeUpdate("INSERT INTO alugueis VALUES (NULL, '" + i.getCliente_id() + "', '"+ i.getClinte_imovel() + "', '" + sdf.format(i.getInicio()) +"', '" + sdf.format(i.getInicio()) + "', '" +i.getSeguro() +"', '"+i.getChaveExtra()+"', '"+i.getMobiliado()+ "', '" + (i.getSeguro()+i.getChaveExtra()+i.getMobiliado()) + "')");
+			st.executeUpdate("INSERT INTO alugueis VALUES (NULL, '" + i.getCliente_id() + "', '"+ i.getClinte_imovel() + "', '" + sdf.format(i.getInicio()) +"', '" + sdf.format(i.getTermino()) + "', '" +i.getSeguro() +"', '"+i.getChaveExtra()+"', '"+i.getMobiliado()+ "', '" + (i.getSeguro()+i.getChaveExtra()+i.getMobiliado()) + "')");
 			return true;
 		}
 		catch (SQLException e){

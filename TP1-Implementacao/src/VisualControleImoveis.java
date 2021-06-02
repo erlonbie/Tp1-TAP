@@ -353,13 +353,18 @@ public class VisualControleImoveis extends JFrame {
 				for(int i = fim; s.charAt(i) != '|'; i++) {
 					fim++;	
 				}
-				textArea.setText("Apaguei o id: " + comboBox.getSelectedItem().toString().substring(0, fim));
 				s = comboBox.getSelectedItem().toString().substring(0, fim);
 				ImovelDAO iDAO = new ImovelDAO ();
-				iDAO.removeImoveis(s);
-				JOptionPane.showMessageDialog(null, "Imóvel removido com sucesso");
-				dispose();
-				main(null);
+				if(iDAO.alugado(s)) {
+					JOptionPane.showMessageDialog(null, "Imóvel possui cliente, remova-o antes");
+				}
+				else {
+					iDAO.removeImoveis(s);
+					textArea.setText("Apaguei o id: " + comboBox.getSelectedItem().toString().substring(0, fim));
+					JOptionPane.showMessageDialog(null, "Imóvel removido com sucesso");
+					dispose();
+					main(null);
+				}
 			}
 			
 		});

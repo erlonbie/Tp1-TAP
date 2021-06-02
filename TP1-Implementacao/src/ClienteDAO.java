@@ -127,7 +127,7 @@ public class ClienteDAO extends BancoDeDados {
 			}
 		}
 		catch (SQLException e) { 
-			System.out.println("Falhou no listaImoveis");
+			System.out.println("Falhou no listaComboBox");
 			System.out.println(e.getMessage());
 		}
 		
@@ -142,7 +142,7 @@ public class ClienteDAO extends BancoDeDados {
 			}
 		}
 		catch (SQLException e) { 
-			System.out.println("Falhou no listaImoveis");
+			System.out.println("Falhou no listaComboBox2");
 			System.out.println(e.getMessage());
 		}
 		
